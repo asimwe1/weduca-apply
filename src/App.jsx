@@ -4,6 +4,10 @@ import Navbar from './components/Navbar'
 import Hero from './components/HeroSection'
 import Footer from './components/Footer'
 import GetStarted from './components/GetStarted'
+import StudyDestinations from './components/Studydest'
+import StatsSection from './components/stats'
+import FeaturesSection from './components/Features'
+
 
 function App() {
 
@@ -11,6 +15,9 @@ function App() {
     <>
     <Navbar />
     <Hero />
+    <StatsSection />
+    <FeaturesSection />
+    <StudyDestinations />
     <GetStarted />
     <Footer />
     </>
