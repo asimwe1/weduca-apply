@@ -9,6 +9,7 @@ import StatsSection from './components/stats'
 import FeaturesSection from './components/Features'
 import StudyProgramSearch from './components/StudyProgram'
 import PlatformSection from './components/Platform'
+import TrustedInstitutionsSection from './components/Partners'
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
     <>
     <Navbar />
     <Hero />
-    <PlatformSection />
+    {/* <PlatformSection /> */}
+    <TrustedInstitutionsSection />
     <StatsSection />
     <StudyProgramSearch />
     <FeaturesSection />
