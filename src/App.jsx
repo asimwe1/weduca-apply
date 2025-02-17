@@ -8,6 +8,7 @@ import StudyDestinations from './components/Studydest'
 import StatsSection from './components/stats'
 import FeaturesSection from './components/Features'
 import StudyProgramSearch from './components/StudyProgram'
+import PlatformSection from './components/Platform'
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <>
     <Navbar />
     <Hero />
+    <PlatformSection />
     <StatsSection />
     <StudyProgramSearch />
     <FeaturesSection />

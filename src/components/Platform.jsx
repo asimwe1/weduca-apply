@@ -8,9 +8,8 @@ const tabs = [
     description:
       "We believe in your dreams and work hard to make them a reality. Get matched with and apply to programs and institutions that align with your background, skills, and interests.",
     images: [
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-17%20053517-ronpSrsnsoJYiT9dBI6BSoas2IPeUx.png",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
     ],
   },
   {
@@ -20,9 +19,9 @@ const tabs = [
     description:
       "Join our network of recruitment partners and help students achieve their international education dreams while growing your business.",
     images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
     ],
   },
   {
@@ -32,9 +31,9 @@ const tabs = [
     description:
       "Connect with qualified students from around the world and streamline your international enrollment process.",
     images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
+      "https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__",
     ],
   },
 ];
