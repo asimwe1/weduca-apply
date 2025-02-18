@@ -11,7 +11,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-white">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <a href="/" className="text-2xl font-bold text-blue-600">
-          ApplyBoard
+          Weduka
         </a>
 
         {/* Desktop Navigation */}
@@ -89,7 +89,7 @@ export default function Navbar() {
         <div className="fixed inset-0 z-50 bg-white md:hidden">
           <div className="flex h-16 items-center justify-between px-4">
             <a href="/" className="text-2xl font-bold text-blue-600">
-              ApplyBoard
+              Weduka
             </a>
             <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-700" aria-label="Close menu">
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
