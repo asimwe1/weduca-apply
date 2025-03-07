@@ -8,10 +8,10 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white">
+    <header className="sticky top-0 z-50 w-full shadow-md shadow- shadow-gray-400  bg-white">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
         <a href="/" className="text-2xl font-bold text-blue-600">
-          WEDUCA ltd
+          WEDUCA APPLY LTD
         </a>
 
         {/* Desktop Navigation */}
@@ -22,7 +22,7 @@ export default function Navbar() {
           <a href="#" className="text-sm font-medium text-gray-700 transition-colors hover:text-blue-600">
             Recruitment Partners
           </a>
-          <a href="#" className="text-sm font-medium text-gray-700 transition-colors hover:text-blue-600">
+          <a href="services/schools" className="text-sm font-medium text-gray-700 transition-colors hover:text-blue-600">
             Institutions
           </a>
 
