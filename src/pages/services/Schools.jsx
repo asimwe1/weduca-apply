@@ -3,8 +3,31 @@ import React from 'react'
 
 import { useState } from 'react';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+// import { features, title } from 'process';
 
-const HeroSection = () => (
+const Features = [
+    {
+      image: "https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741322913/Hands-Globe-1_pdanyw.png",
+      name: "REACH",
+      title: "Quality Applications",
+      description: "Improve your enrolment funnel and boost conversion by 10%.",
+    },
+    {
+      image: "https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741323125/Hand-Shake_i5w9vd.svg",
+      name: "CONVERSION",
+      title: "Unmatched Diversity",
+      description: "Reach high-quality student talent from over 150 countries.",
+    },
+    {
+      image: "https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741322939/Email-02-1_gwzqy1.webp",
+      name: "SPEED",
+      title: "Automate Repetitive Tasks",
+      description: "Leverage proven technology to reduce manual processing by 40%. ",
+    },
+  ];
+  
+  const HeroSection = () => (
   <div className="bg-cover bg-center h-[64vh] relative" style={{ backgroundImage: 'url(https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741325967/Frame-31693-1_trodoz.png)' }}>
     {/* <div className="absolute inset-0 bg-black opacity-50"></div> */}
     <div className="container mx-auto px-10 flex items-center h-full">
@@ -21,24 +44,30 @@ const HeroSection = () => (
 );
 
 const WhyChoose = () => (
-  <section className="py-20 bg-gray-100">
-    <div className="container mx-auto px-6">
-      <h2 className="text-3xl font-bold text-center mb-16">Why Choose ApplyBoard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        {[1, 2, 3].map((item) => (
-          <div key={item} className="text-center">
-            <div className="w-24 h-24 bg-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center">
-              <img src={`https://via.placeholder.com/64x64`} alt={`icon-${item}`} />
+    <section className="py-20 bg-gray-100">
+      <div className="container mx-auto px-6">
+        <h2 className="text-3xl font-bold text-center mb-16">
+          Enrol Top Student Talent in Less Time
+        </h2>
+        <div className='gap-x-20'>
+        <div className="p-2 border  grid grid-cols-1 md:grid-cols-3 gap-12">
+          {Features.map((item) => (
+            <div key={item.title} className="text-center  bg-white py-10 px-6 w-[20rem] h-[26rem] border">
+              <div className="w-32 h-32 rounded-full mx-auto mb-6 flex items-center justify-center">
+                <img src={item.image} alt={`icon-${item.title}`} />
+              </div>
+              <p className='text-xl font-semibold mb-4 text-gray-700'>{item.name}</p>
+              <h3 className="text-[1.5rem] font-semibold mb-4">{item.title}</h3>
+              <p className="text-gray-600">{item.description}</p>
             </div>
-            <h3 className="text-xl font-semibold mb-4">Feature {item}</h3>
-            <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+          ))}
+        </div>
 
+        </div>
+      </div>
+    </section>
+  );
+  
 const TopCountries = () => (
   <section className="py-20">
     <div className="container mx-auto px-6">
@@ -122,48 +151,6 @@ const Testimonials = () => {
   );
 };
 
-const Footer = () => (
-  <footer className="bg-gray-900 text-white py-12">
-    <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div>
-        <h3 className="font-semibold mb-4">About</h3>
-        <ul>
-          <li><a href="#" className="hover:text-blue-500">Our Story</a></li>
-          <li><a href="#" className="hover:text-blue-500">Careers</a></li>
-          <li><a href="#" className="hover:text-blue-500">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-4">Resources</h3>
-        <ul>
-          <li><a href="#" className="hover:text-blue-500">Blog</a></li>
-          <li><a href="#" className="hover:text-blue-500">Guides</a></li>
-          <li><a href="#" className="hover:text-blue-500">FAQ</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-4">Legal</h3>
-        <ul>
-          <li><a href="#" className="hover:text-blue-500">Privacy Policy</a></li>
-          <li><a href="#" className="hover:text-blue-500">Terms of Service</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3 className="font-semibold mb-4">Subscribe</h3>
-        <div className="flex items-center">
-          <input 
-            type="email" 
-            placeholder="Your email" 
-            className="bg-gray-700 rounded-l px-4 py-2 focus:outline-none"
-          />
-          <button className="bg-blue-600 px-6 py-2 rounded-r hover:bg-blue-700 transition duration-300">
-            Subscribe
-          </button>
-        </div>
-      </div>
-    </div>
-  </footer>
-);
 
 const Schools = () => {
   return (
