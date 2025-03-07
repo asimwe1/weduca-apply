@@ -13,7 +13,12 @@
     "@tailwindcss/vite": "^4.0.6",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
+<<<<<<< HEAD
     "react-dom": "^19.0.0"
+=======
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.3.0"
+>>>>>>> 239fbe8 (service/student page added successfully)
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

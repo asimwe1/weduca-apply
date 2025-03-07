@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from 'react'
 import './App.css'
 import Navbar from './components/Navbar'
@@ -32,3 +33,24 @@ function App() {
 }
 
 export default App
+=======
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Schools from "./pages/services/schools";
+import './App.css'
+
+// import Contact from "./pages/Contact";
+
+function App() {
+  return (
+    <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services/schools" element={<Schools />} />
+          </Routes>
+    </Router>
+  );
+}
+
+export default App;
+>>>>>>> 239fbe8 (service/student page added successfully)
