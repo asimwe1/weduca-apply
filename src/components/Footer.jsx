@@ -5,7 +5,7 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-12 gap-y-8">
             {/* Company Info - Column 1 */}
             <div className="lg:col-span-3">
-              <h2 className="font-semibold text-xl mb-6">WEDUCA ltd</h2>
+              <h2 className="font-semibold text-xl mb-6">WEDUCA APPLY LTD</h2>
               <div className="mb-8">
                 <p className="text-sm leading-relaxed">
                   Kigali, Rwanda
@@ -112,7 +112,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <a href="#" className="hover:underline text-sm">
-                      Life at WEDUCA ltd
+                      Life at WEDUCA APPLY LTD
                     </a>
                   </li>
                   <li>
@@ -176,7 +176,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <a href="#" className="hover:underline text-sm">
-                      WEDUCA ltd Fees
+                      WEDUCA APPLY LTD Fees
                     </a>
                   </li>
                 </ul>
@@ -186,7 +186,7 @@ const Footer = () => {
   
           {/* Copyright */}
           <div className="mt-16 text-center">
-            <p className="text-sm">© 2025 WEDUCA ltd</p>
+            <p className="text-sm">© 2025 WEDUCA APPLY LTD</p>
           </div>
         </div>
       </footer>
