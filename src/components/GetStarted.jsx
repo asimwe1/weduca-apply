@@ -2,7 +2,7 @@ const GetStarted = () => {
     return (
       <section className="py-16 px-4 bg-gray-50">
         <div className="container mx-auto max-w-7xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">Get Started with WEDUCA ltd</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16">Get Started with WEDUCA APPLY LTD</h1>
   
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Student Card */}
@@ -43,7 +43,7 @@ const GetStarted = () => {
               </div>
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Partner Institutions</h2>
               <p className="text-gray-600 mb-8">
-                Join 1,500+ global institutions on the WEDUCA ltd platform! Complete this form, and our Partner Relations
+                Join 1,500+ global institutions on the WEDUCA APPLY LTD platform! Complete this form, and our Partner Relations
                 team will be in touch soon.
               </p>
               <button className="mt-auto bg-[#0047CC] text-white px-8 py-3 rounded-md hover:bg-[#0039A3] transition-colors">

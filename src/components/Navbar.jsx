@@ -89,7 +89,7 @@ export default function Navbar() {
         <div className="fixed inset-0 z-50 bg-white md:hidden">
           <div className="flex h-16 items-center justify-between px-4">
             <a href="/" className="text-2xl font-bold text-blue-600">
-              WEDUCA ltd
+              WEDUCA APPLY LTD
             </a>
             <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-700" aria-label="Close menu">
               <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
