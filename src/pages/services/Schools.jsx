@@ -11,6 +11,7 @@ import HowItWorks from '../../components/HowItWorks';
 import { Section } from 'lucide-react';
 import ImpactSection from '../../components/ImpactSection';
 import TrustedInstitutions from '../../components/TrustedInstitution';
+import ContactForm from '../../components/ContactForm';
 
 
 const FeaturedSchools = () => (
@@ -69,8 +70,7 @@ const Schools = () => {
       <TopCountries />
       <HowItWorks />
       <TrustedInstitutions />
-      {/* <FeaturedSchools />
-      <Testimonials /> */}
+      <ContactForm />
       <Footer />
     </div>
   );
