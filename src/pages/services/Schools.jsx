@@ -10,6 +10,7 @@ import TopCountries from '../../components/TopCountries';
 import HowItWorks from '../../components/HowItWorks';
 import { Section } from 'lucide-react';
 import ImpactSection from '../../components/ImpactSection';
+import TrustedInstitutions from '../../components/TrustedInstitution';
 
 
 const FeaturedSchools = () => (
@@ -67,8 +68,9 @@ const Schools = () => {
       <ImpactSection />
       <TopCountries />
       <HowItWorks />
-      <FeaturedSchools />
-      <Testimonials />
+      <TrustedInstitutions />
+      {/* <FeaturedSchools />
+      <Testimonials /> */}
       <Footer />
     </div>
   );
