@@ -56,33 +56,21 @@ const StudentPlatform = () => {
               {/* Images with consistent dimensions */}
               <div className="w-full h-full flex-shrink-0">
                 <img 
-<<<<<<< HEAD
-                  src="https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__" 
-=======
                   src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319045/slide1_bk8hf0.png" 
->>>>>>> 239fbe8 (service/student page added successfully)
                   alt="Student with backpack"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="w-full h-full flex-shrink-0">
                 <img 
-<<<<<<< HEAD
-                  src="https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__" 
-=======
                   src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319046/slide2_uxm8ap.png" 
->>>>>>> 239fbe8 (service/student page added successfully)
                   alt="Students studying"
                   className="w-full h-full object-cover"
                 />
               </div>
               <div className="w-full h-full flex-shrink-0">
                 <img 
-<<<<<<< HEAD
-                  src="https://s3-alpha-sig.figma.com/img/ca9a/a89c/c924aadd276b91455732e90d284e6e87?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=J34DzzHW7mbCxjXjn2qFVLfchPK7in-hCr6eUjtd9up6WgVTOjKn~UiiKRmMYnum2qheHjnBCGEvurbk305IGgQiUL~HyxO5-H1JWqdcSIzkWSWOk-oHdyvkO15Mv0FLjxSR7xySPhOUt-n-EdQqXBDrBhIm9DBIJcyy0oCY8IxPEBwsn76TpkKG4a4jqJCAqP8EESaIXDOCCyUGvOYlyCrlSrprEG4b0i7dYIPT2N6Y2OHTdtGDEIBmuB0~Js3F0JzNLnUesjJ4nC9YfocG08mpBAs7o6w6Emlh5yO7eLYA8R4z95rWhxkX~uSTaTBEPpd1C~6Cg9EsYpFFjuIh6w__" 
-=======
                   src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319047/slide3_phhlh6.png" 
->>>>>>> 239fbe8 (service/student page added successfully)
                   alt="Campus life"
                   className="w-full h-full object-cover"
                 />

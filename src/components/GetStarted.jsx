@@ -9,11 +9,7 @@ const GetStarted = () => {
             <div className="bg-white rounded-lg p-8 shadow-sm flex flex-col items-center text-center">
               <div className="mb-6 relative w-64 h-48">
                 <img
-<<<<<<< HEAD
-                  src="https://s3-alpha-sig.figma.com/img/8f7d/314c/99e4b99f4a02d33a1cd1a88b0ec332d6?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=j18NNNTIBhMrnJBaAcbCDC4Hi3u8gGi85~otw~Yb9x6au~7glIgTwkt3Cd2pxxQPzdrFeuTQxHdHzVKj88wQLBLEt2zzHeU4RzW6QAM0ueZ9r~Zm4MRQ6D1Tb9DUMdj9NqRbdJD2z3JjlL7LF-xRrbyLLGZPdRA0TofC7e3IiO~jcpTVFOSjRJmTcfYepb6PF20mIZNYzznU-t7EZHPgbX-Qg1pmS5Oo1DAY4UnCqzbaRixz6y-ZwVJZLmh6Mg-~z72-y4Pb0WwkE0CL7ZmTj1MdiAOrryR0swgof~LFSmiPK~Jd3PkHR3JENCqfmSj2MlcYGVgh~GxWS234xfbjgQ__"
-=======
                   src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319047/student_byddxv.png"
->>>>>>> 239fbe8 (service/student page added successfully)
                   alt="Student with tablet and graduation caps"
                   className="w-full h-full object-contain"
                 />
@@ -32,11 +28,7 @@ const GetStarted = () => {
             <div className="bg-white rounded-lg p-8 shadow-sm flex flex-col items-center text-center">
               <div className="mb-6 relative w-64 h-48">
                 <img
-<<<<<<< HEAD
-                  src="https://s3-alpha-sig.figma.com/img/aaf3/7bcf/392c62ff34d303ac964e2f590b1f1391?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=klnkE-SqWjk5m1sv7fDS6VlCcDtKELF9Kr-Hrs7Cla3-NALCnfL2dLbBCtypnRzEDhDe8zkDv74ExIkTAQs9c1ft4cLp87LkdJysVw0GftkKgVxRgg3Y4CsS1FIEQVpagcyiOVNCx3Zis~If-Epg9mnId8zobpoA-YKLNiHg8qw8-Wkaw-F2Y4YMPq4I8CKoE6sYqFmZZmiah7uEn-Qdm1rWfDV7DKBAJ91WSMSWnhiTNegtUJti4q9j46fWLIZK11PpiVEd9PPbMJHBx-awccCfxhbRUsGye-tczrvA1rWRF~iLSdX49KV9TwXWNgwmfZcXx59r6GBLLRFjPbj6ZQ__"
-=======
                   src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319046/school_q63kpq.png"
->>>>>>> 239fbe8 (service/student page added successfully)
                   alt="Partner with institution building icon"
                   className="w-full h-full object-contain"
                 />
@@ -55,11 +47,7 @@ const GetStarted = () => {
             <div className="bg-white rounded-lg p-8 shadow-sm flex flex-col items-center text-center">
               <div className="mb-6 relative w-64 h-48">
                 <img
-<<<<<<< HEAD
-                  src="https://s3-alpha-sig.figma.com/img/f5ce/c8a6/56db687c15666f413f86218804cd1f14?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=N1jdrQP-E-N0Tr~qWxb~yb06eBfQAAP5ehNl0waub4exlGFLARXG0E9lhsHKZjxymAeSKmiu6I0OaUwdNhuhLnZPeK3O5HH9MvsSM8Ggn4bT6z5srNwNnmZCvqXBIDn7rMfWgJaQsIJSBv3BpWByibRN0k5vuLUTkJGnfOiEDjBxbZRYOim~iOmF8YLS7Ct7ocdcW7cJpd9ho8Q0da~JfXi-TZuzhSTc~Gg5eeXSSXJYQMH-w4GXpbE7gd5Px-SLT1FcjW7eGnKaLsupPDRuqgrYo3r8uPPTkrkose0zrgHev749hpWrEomdjB89tVtQnIQjB5r~wSAzwTvF60hAZQ__"
-=======
                   src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319046/RP_grlnq3.png"
->>>>>>> 239fbe8 (service/student page added successfully)
                   alt="Recruitment partner with handshake icon"
                   className="w-full h-full object-contain"
                 />
