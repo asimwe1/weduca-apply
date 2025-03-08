@@ -7,11 +7,7 @@ export default function Hero() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
-<<<<<<< HEAD
-          src="https://s3-alpha-sig.figma.com/img/8cf4/26f8/37a7bbda094bbe9276aaab178ba5f8a0?Expires=1740960000&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=hnTALytcszDzfO~JV4Np3QD7PM~Rc1UE8VqKIDll9ko1UWdHxmZFWqH3ZEesL~L~RUbA6BIszmVokG2duGoHwzvbEfvYWypClqBH1sJK3q3DalncS0jlVNpbujAwmzPpAmT1Wn5RQGbWBhIymF0nWEvAwiICfCHfdkFILTUlrB86-KSeo0PsyM1kL4yIqsulU-DFKTfb-TEVrsyslAsh0N0xYgGXWan8Ay8Gn2lvywvJwpMjbUiVzm218eTgcXPhZ7GxOkcJgHzw0tb2KKcu-zKT4bfHjcyF~2qpVgtasacbcuu2rypDiMVNizHFer~NrdbuXHGXlnvmhQ7WOnRCIQ__"
-=======
           src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741319045/hero_zbwqon.png"
->>>>>>> 239fbe8 (service/student page added successfully)
           alt="Students collaborating"
           className="object-cover"
         />
