@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import emailjs from "@emailjs/browser";
+// require('dotenv').config();
+
 
 const countries = [
   "Canada",
@@ -27,7 +29,14 @@ const ContactForm = () => {
     schoolName: "",
     isReferred: false,
     comments: "",
-    receiveUpdates: false
+    receiveUpdates: false,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    title: "",
+    referredName: "",
+    referredEmail: ""
   });
   const [notification, setNotification] = useState({ message: "", type: "" });
 
@@ -35,17 +44,59 @@ const ContactForm = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Prepare the template parameters for EmailJS
+    const templateParams = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      title: formData.title,
+      country: formData.country,
+      schoolName: formData.schoolName,
+      isReferred: formData.isReferred ? "Yes" : "No",
+      referredName: formData.referredName || "N/A",
+      referredEmail: formData.referredEmail || "N/A",
+      comments: formData.comments || "No comments",
+      receiveUpdates: formData.receiveUpdates ? "Yes" : "No"
+    };
+
     try {
-      const response = await axios.post('/api/submit-form', formData);
-      setNotification({ message: "Form submitted successfully!", type: "success" });
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      console.log("Email sent successfully:", response.status, response.text);
+      setNotification({ message: "Form submitted and email sent successfully!", type: "success" });
+
+      // Optional: Reset form after submission
+      setFormData({
+        country: "",
+        schoolName: "",
+        isReferred: false,
+        comments: "",
+        receiveUpdates: false,
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        title: "",
+        referredName: "",
+        referredEmail: ""
+      });
     } catch (error) {
-      setNotification({ message: "An error occurred while submitting the form.", type: "error" });
+      console.error("Failed to send email:", error);
+      setNotification({ message: "Failed to send email. Please try again.", type: "error" });
     }
   };
 
@@ -53,7 +104,7 @@ const ContactForm = () => {
     <section className="py-16 px-6 bg-white flex justify-center items-center min-h-screen">
       <div className="container mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-green-900 "> 
+          <h2 className="text-3xl md:text-4xl font-bold text-green-900">
             A Platform That Supports You End-to-End
           </h2>
         </div>
@@ -156,14 +207,15 @@ const ContactForm = () => {
                 ></textarea>
               </div>
 
-              <button 
-                type="submit" 
-                className="bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-600 hover:cursor-pointer">
+              <button
+                type="submit"
+                className="bg-green-600 text-white px-6 py-3 rounded-md font-medium hover:bg-green-600 hover:cursor-pointer"
+              >
                 Submit
               </button>
             </form>
           </div>
-          <div className="hidden lg:block ">
+          <div className="hidden lg:block">
             <img
               src="https://res.cloudinary.com/dhrhfjgqa/image/upload/v1741323439/School-Footer_Illustration_ldbjwo.webp"
               alt="School recruitment illustration"
