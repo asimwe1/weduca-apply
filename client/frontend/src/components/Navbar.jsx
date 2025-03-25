@@ -22,7 +22,7 @@ export default function Navbar() {
           <a href="#" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
             Recruitment Partners
           </a>
-          <a href="/services/schools" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
+          <a href="/schools" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
             Institutions
           </a>
 
