@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Plus, Filter, School } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,121 +19,66 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-
-type SchoolType = "University" | "College" | "Technical Institute" | "Language School";
+import { fetchData } from "@/utils/api";
 
 interface SchoolData {
-  id: string;
+  _id: string;
   name: string;
-  location: string;
+  address: string; // Changed from 'location' to match backend
   country: string;
-  type: SchoolType;
+  type: string;
   programs: number;
   students: number;
   status: "active" | "inactive";
 }
 
-const schoolsData: SchoolData[] = [
-  {
-    id: "SCH-001",
-    name: "University of Toronto",
-    location: "Toronto, ON",
-    country: "Canada",
-    type: "University",
-    programs: 276,
-    students: 1542,
-    status: "active"
-  },
-  {
-    id: "SCH-002",
-    name: "McGill University",
-    location: "Montreal, QC",
-    country: "Canada",
-    type: "University",
-    programs: 198,
-    students: 1124,
-    status: "active"
-  },
-  {
-    id: "SCH-003",
-    name: "Boston College",
-    location: "Boston, MA",
-    country: "United States",
-    type: "College",
-    programs: 145,
-    students: 876,
-    status: "active"
-  },
-  {
-    id: "SCH-004",
-    name: "University of California Berkeley",
-    location: "Berkeley, CA",
-    country: "United States",
-    type: "University",
-    programs: 224,
-    students: 1320,
-    status: "active"
-  },
-  {
-    id: "SCH-005",
-    name: "London School of Economics",
-    location: "London",
-    country: "United Kingdom",
-    type: "University",
-    programs: 132,
-    students: 765,
-    status: "active"
-  },
-  {
-    id: "SCH-006",
-    name: "Technical University of Munich",
-    location: "Munich",
-    country: "Germany",
-    type: "Technical Institute",
-    programs: 89,
-    students: 543,
-    status: "active"
-  },
-  {
-    id: "SCH-007",
-    name: "University of Melbourne",
-    location: "Melbourne",
-    country: "Australia",
-    type: "University",
-    programs: 156,
-    students: 934,
-    status: "active"
-  },
-  {
-    id: "SCH-008",
-    name: "Berlitz Language School",
-    location: "Multiple Locations",
-    country: "Multiple Countries",
-    type: "Language School",
-    programs: 24,
-    students: 435,
-    status: "inactive"
-  }
-];
-
 export default function Schools() {
+  const [schools, setSchools] = useState<SchoolData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredSchools = schoolsData.filter(school => {
-    const matchesSearch = school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          school.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          school.country.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesFilter = filter === "all" || 
-                           (filter === "active" && school.status === "active") ||
-                           (filter === "inactive" && school.status === "inactive");
-    
+  useEffect(() => {
+    const loadSchools = async () => {
+      try {
+        const data = await fetchData('/institutions');
+        if (!Array.isArray(data)) {
+          throw new Error("Unexpected response format from server");
+        }
+        setSchools(
+          data.map((school: any) => ({
+            _id: school._id,
+            name: school.name,
+            address: school.address, // Match backend field
+            country: school.country || "Unknown",
+            type: school.type || "University",
+            programs: school.programs || 0,
+            students: school.students || 0,
+            status: school.status || "active",
+          }))
+        );
+      } catch (err) {
+        setError("Failed to load schools. Please try again later.");
+        console.error('Failed to fetch schools:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadSchools();
+  }, []);
+
+  const filteredSchools = schools.filter((school) => {
+    const matchesSearch =
+      school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      school.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      school.country.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filter === "all" || filter === school.status;
     return matchesSearch && matchesFilter;
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Schools Management</h1>
         <Button className="bg-green-600 hover:bg-green-700" asChild>
@@ -143,73 +88,65 @@ export default function Schools() {
         </Button>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between bg-white p-4 rounded-lg shadow-sm">
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+      <div className="flex items-center space-x-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
           <Input
             placeholder="Search schools..."
-            className="pl-10"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-8"
           />
         </div>
-        
-        <div className="flex items-center gap-2 w-full md:w-auto">
-          <Filter className="h-4 w-4 text-gray-500" />
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-full md:w-[180px]">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Schools</SelectItem>
-              <SelectItem value="active">Active Only</SelectItem>
-              <SelectItem value="inactive">Inactive Only</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <Select value={filter} onValueChange={setFilter}>
+          <SelectTrigger className="w-32">
+            <Filter className="mr-2 h-4 w-4" />
+            <SelectValue placeholder="Filter" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      {loading ? (
+        <div className="text-center py-4">Loading schools...</div>
+      ) : error ? (
+        <div className="text-center py-4 text-red-600">{error}</div>
+      ) : filteredSchools.length === 0 ? (
+        <div className="text-center py-4 text-gray-500">
+          There are no schools registered yet.
+        </div>
+      ) : (
+        <div className="border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>School Name</TableHead>
+                <TableHead>Name</TableHead>
                 <TableHead>Location</TableHead>
+                <TableHead>Country</TableHead>
                 <TableHead>Type</TableHead>
-                <TableHead className="text-center">Programs</TableHead>
-                <TableHead className="text-center">Students</TableHead>
+                <TableHead>Programs</TableHead>
+                <TableHead>Students</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredSchools.map((school) => (
-                <TableRow key={school.id} className="cursor-pointer hover:bg-gray-50">
-                  <TableCell className="font-medium">
-                    <div className="flex items-center">
-                      <div className="bg-green-100 p-2 rounded-md mr-3">
-                        <School className="h-4 w-4 text-green-600" />
-                      </div>
-                      {school.name}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div>{school.location}</div>
-                    <div className="text-sm text-gray-500">{school.country}</div>
-                  </TableCell>
+                <TableRow key={school._id}>
+                  <TableCell className="font-medium">{school.name}</TableCell>
+                  <TableCell>{school.address}</TableCell>
+                  <TableCell>{school.country}</TableCell>
                   <TableCell>{school.type}</TableCell>
-                  <TableCell className="text-center">{school.programs}</TableCell>
-                  <TableCell className="text-center">{school.students}</TableCell>
+                  <TableCell>{school.programs}</TableCell>
+                  <TableCell>{school.students}</TableCell>
                   <TableCell>
                     <Badge
-                      variant="outline"
-                      className={
-                        school.status === "active"
-                          ? "bg-green-50 text-green-700"
-                          : "bg-gray-50 text-gray-700"
-                      }
+                      variant={school.status === "active" ? "default" : "secondary"}
                     >
-                      {school.status === "active" ? "Active" : "Inactive"}
+                      {school.status}
                     </Badge>
                   </TableCell>
                 </TableRow>
@@ -217,7 +154,7 @@ export default function Schools() {
             </TableBody>
           </Table>
         </div>
-      </div>
+      )}
     </div>
   );
 }

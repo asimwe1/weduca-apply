@@ -1,10 +1,37 @@
-
+import { useEffect, useState } from "react";
 import { School, Users, GraduationCap, BarChart3 } from "lucide-react";
 import StatsCard from "@/components/admin/StatsCard";
 import RecentApplications from "@/components/admin/RecentApplications";
 import TopSchools from "@/components/admin/TopSchools";
+import { fetchData } from "@/utils/api";
+
+interface DashboardStats {
+  totalSchools: number;
+  totalStudents: number;
+  totalApplications: number;
+  successRate: string;
+}
 
 export default function Dashboard() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const data = await fetchData('/dashboard');
+        setStats(data);
+      } catch (error) {
+        console.error('Failed to fetch dashboard stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadStats();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -15,7 +42,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard 
           title="Total Schools" 
-          value="1,254" 
+          value={stats?.totalSchools.toString() || '0'} 
           icon={School}
           iconBackground="bg-green-100"
           iconColor="text-green-600"
@@ -23,7 +50,7 @@ export default function Dashboard() {
         />
         <StatsCard 
           title="Total Students" 
-          value="45,678" 
+          value={stats?.totalStudents.toString() || '0'} 
           icon={Users}
           iconBackground="bg-green-100"
           iconColor="text-admin-secondary"
@@ -31,7 +58,7 @@ export default function Dashboard() {
         />
         <StatsCard 
           title="Applications" 
-          value="8,765" 
+          value={stats?.totalApplications.toString() || '0'} 
           icon={GraduationCap}
           iconBackground="bg-yellow-100"
           iconColor="text-admin-accent"
@@ -39,7 +66,7 @@ export default function Dashboard() {
         />
         <StatsCard 
           title="Success Rate" 
-          value="75%" 
+          value={stats?.successRate || '0%'} 
           icon={BarChart3}
           iconBackground="bg-purple-100"
           iconColor="text-purple-600"

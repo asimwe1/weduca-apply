@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Search, Plus, Filter, Users } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Plus, Filter, Users, Edit } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,130 +20,100 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Link } from "react-router-dom";
+import { fetchData } from "@/utils/api";
 
 interface StudentData {
-  id: string;
-  name: string;
+  _id: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  initials: string;
-  country: string;
-  applications: number;
+  nationality: string;
+  applicationCount: number; // We'll compute this in the frontend
   status: "active" | "pending" | "inactive";
   joinDate: string;
 }
 
-const studentsData: StudentData[] = [
-  {
-    id: "STU-001",
-    name: "Emma Wilson",
-    email: "emma.w@example.com",
-    initials: "EW",
-    country: "Canada",
-    applications: 3,
-    status: "active",
-    joinDate: "2023-06-12"
-  },
-  {
-    id: "STU-002",
-    name: "Michael Chen",
-    email: "m.chen@example.com",
-    initials: "MC",
-    country: "China",
-    applications: 5,
-    status: "active",
-    joinDate: "2023-05-24"
-  },
-  {
-    id: "STU-003",
-    name: "Sophia Rodriguez",
-    email: "sophia.r@example.com",
-    initials: "SR",
-    country: "Mexico",
-    applications: 2,
-    status: "pending",
-    joinDate: "2023-07-15"
-  },
-  {
-    id: "STU-004",
-    name: "James Johnson",
-    email: "j.johnson@example.com",
-    initials: "JJ",
-    country: "United States",
-    applications: 4,
-    status: "active",
-    joinDate: "2023-04-30"
-  },
-  {
-    id: "STU-005",
-    name: "Olivia Thompson",
-    email: "o.thompson@example.com",
-    initials: "OT",
-    country: "United Kingdom",
-    applications: 1,
-    status: "inactive",
-    joinDate: "2023-03-18"
-  },
-  {
-    id: "STU-006",
-    name: "Mohammed Al-Farsi",
-    email: "m.alfarsi@example.com",
-    initials: "MF",
-    country: "UAE",
-    applications: 3,
-    status: "active",
-    joinDate: "2023-06-05"
-  },
-  {
-    id: "STU-007",
-    name: "Aisha Patel",
-    email: "a.patel@example.com",
-    initials: "AP",
-    country: "India",
-    applications: 2,
-    status: "pending",
-    joinDate: "2023-07-22"
-  },
-  {
-    id: "STU-008",
-    name: "Lucas Silva",
-    email: "l.silva@example.com",
-    initials: "LS",
-    country: "Brazil",
-    applications: 3,
-    status: "active",
-    joinDate: "2023-05-14"
-  }
-];
+interface Application {
+  _id: string;
+  student: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+  institution: {
+    _id: string;
+    name: string;
+  };
+  program: string;
+  date: string;
+  status: string;
+  __v: number;
+}
 
 const statusStyles = {
-  active: {
-    bgColor: "bg-green-50",
-    textColor: "text-green-700",
-    label: "Active"
-  },
-  pending: {
-    bgColor: "bg-yellow-50",
-    textColor: "text-yellow-700",
-    label: "Pending"
-  },
-  inactive: {
-    bgColor: "bg-gray-50",
-    textColor: "text-gray-700",
-    label: "Inactive"
-  }
+  active: { bgColor: "bg-green-50", textColor: "text-green-700", label: "Active" },
+  pending: { bgColor: "bg-yellow-50", textColor: "text-yellow-700", label: "Pending" },
+  inactive: { bgColor: "bg-gray-50", textColor: "text-gray-700", label: "Inactive" },
 };
 
 export default function Students() {
+  const [students, setStudents] = useState<StudentData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredStudents = studentsData.filter(student => {
-    const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          student.country.toLowerCase().includes(searchTerm.toLowerCase());
-    
+  useEffect(() => {
+    const loadStudents = async () => {
+      try {
+        setLoading(true);
+
+        // Step 1: Fetch students
+        const studentsData = await fetchData('/students');
+        if (!Array.isArray(studentsData)) throw new Error("Unexpected students response format");
+
+        // Step 2: Fetch all applications
+        const applicationsData: Application[] = await fetchData('/applications/all');
+        if (!Array.isArray(applicationsData)) throw new Error("Unexpected applications response format");
+
+        // Step 3: Count applications per student
+        const applicationCounts: { [key: string]: number } = {};
+        applicationsData.forEach((app) => {
+          const studentId = app.student._id;
+          applicationCounts[studentId] = (applicationCounts[studentId] || 0) + 1;
+        });
+
+        // Step 4: Map students data and include application count
+        const studentsWithCounts = studentsData.map((student: any) => ({
+          _id: student._id,
+          firstName: student.firstName,
+          lastName: student.lastName,
+          email: student.email,
+          nationality: student.nationality || "Unknown",
+          applicationCount: applicationCounts[student._id] || 0, // Use the computed count
+          status: student.status || "active",
+          joinDate: student.joinDate,
+        }));
+
+        setStudents(studentsWithCounts);
+      } catch (err) {
+        setError("Failed to load students or applications. Please try again later.");
+        console.error('Failed to fetch data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadStudents();
+  }, []);
+
+  const filteredStudents = students.filter((student) => {
+    const name = `${student.firstName} ${student.lastName}`;
+    const matchesSearch =
+      name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.nationality.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filter === "all" || filter === student.status;
-    
     return matchesSearch && matchesFilter;
   });
 
@@ -151,12 +121,12 @@ export default function Students() {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     });
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Students Management</h1>
         <Button className="bg-green-600 hover:bg-green-700" asChild>
@@ -176,7 +146,6 @@ export default function Students() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        
         <div className="flex items-center gap-2 w-full md:w-auto">
           <Filter className="h-4 w-4 text-gray-500" />
           <Select value={filter} onValueChange={setFilter}>
@@ -193,51 +162,74 @@ export default function Students() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[250px]">Student</TableHead>
-                <TableHead>Country</TableHead>
-                <TableHead className="text-center">Applications</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Join Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredStudents.map((student) => (
-                <TableRow key={student.id} className="cursor-pointer hover:bg-gray-50">
-                  <TableCell>
-                    <div className="flex items-center">
-                      <Avatar className="h-8 w-8 mr-3">
-                        <AvatarFallback className="bg-admin-primary text-white">
-                          {student.initials}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <div className="font-medium">{student.name}</div>
-                        <div className="text-sm text-gray-500">{student.email}</div>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>{student.country}</TableCell>
-                  <TableCell className="text-center">{student.applications}</TableCell>
-                  <TableCell>
-                    <Badge
-                      variant="outline"
-                      className={`${statusStyles[student.status].bgColor} ${statusStyles[student.status].textColor}`}
-                    >
-                      {statusStyles[student.status].label}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{formatDate(student.joinDate)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+      {loading ? (
+        <div className="text-center py-4">Loading students...</div>
+      ) : error ? (
+        <div className="text-center py-4 text-red-600">{error}</div>
+      ) : filteredStudents.length === 0 ? (
+        <div className="text-center py-4 text-gray-500">
+          There are no students registered yet.
         </div>
-      </div>
+      ) : (
+        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[250px]">Student</TableHead>
+                  <TableHead>Country</TableHead>
+                  <TableHead className="text-center">Applications</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Join Date</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredStudents.map((student) => (
+                  <TableRow key={student._id} className="hover:bg-gray-50">
+                    <TableCell>
+                      <div className="flex items-center">
+                        <Avatar className="h-8 w-8 mr-3">
+                          <AvatarFallback className="bg-admin-primary text-white">
+                            {student.firstName[0] + student.lastName[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium">{`${student.firstName} ${student.lastName}`}</div>
+                          <div className="text-sm text-gray-500">{student.email}</div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>{student.nationality}</TableCell>
+                    <TableCell className="text-center">{student.applicationCount}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={`${statusStyles[student.status].bgColor} ${statusStyles[student.status].textColor}`}
+                      >
+                        {statusStyles[student.status].label}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{formatDate(student.joinDate)}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                      >
+                        <Link to={`/admin/students/edit/${student._id}`}>
+                          <Edit className="h-4 w-4" />
+                          <span className="sr-only">Edit {student.firstName} ${student.lastName}</span>
+                        </Link>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

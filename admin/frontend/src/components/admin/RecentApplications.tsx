@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { 
   Table, 
@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { fetchData } from "@/utils/api";
 
 type Status = "approved" | "pending" | "rejected";
 
-type Application = {
-  id: string;
+interface Application {
+  _id: string;
   student: {
     name: string;
     email: string;
@@ -25,70 +26,7 @@ type Application = {
   program: string;
   date: string;
   status: Status;
-};
-
-const applications: Application[] = [
-  {
-    id: "APP-2023-001",
-    student: {
-      name: "Emma Wilson",
-      email: "emma.w@example.com",
-      initials: "EW"
-    },
-    school: "University of Toronto",
-    program: "Computer Science",
-    date: "2023-09-15",
-    status: "approved"
-  },
-  {
-    id: "APP-2023-002",
-    student: {
-      name: "Michael Chen",
-      email: "m.chen@example.com",
-      initials: "MC"
-    },
-    school: "McGill University",
-    program: "Business Administration",
-    date: "2023-09-14",
-    status: "pending"
-  },
-  {
-    id: "APP-2023-003",
-    student: {
-      name: "Sophia Rodriguez",
-      email: "sophia.r@example.com",
-      initials: "SR"
-    },
-    school: "University of British Columbia",
-    program: "Environmental Science",
-    date: "2023-09-12",
-    status: "rejected"
-  },
-  {
-    id: "APP-2023-004",
-    student: {
-      name: "James Johnson",
-      email: "j.johnson@example.com",
-      initials: "JJ"
-    },
-    school: "University of Waterloo",
-    program: "Engineering",
-    date: "2023-09-10",
-    status: "approved"
-  },
-  {
-    id: "APP-2023-005",
-    student: {
-      name: "Olivia Thompson",
-      email: "o.thompson@example.com",
-      initials: "OT"
-    },
-    school: "Queen's University",
-    program: "Psychology",
-    date: "2023-09-08",
-    status: "pending"
-  }
-];
+}
 
 const statusStyles = {
   approved: {
@@ -109,6 +47,37 @@ const statusStyles = {
 };
 
 export default function RecentApplications() {
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadApplications = async () => {
+      try {
+        const data = await fetchData('/applications'); // Fetch from backend
+        setApplications(data.map((app: any) => ({
+          _id: app._id,
+          student: {
+            name: `${app.student.firstName} ${app.student.lastName}`,
+            email: app.student.email,
+            avatar: app.student.avatar || undefined,
+            initials: `${app.student.firstName[0]}${app.student.lastName[0]}`,
+          },
+          school: app.institution.name,
+          program: app.program,
+          date: app.date,
+          status: app.status,
+        })));
+      } catch (err) {
+        setError('Failed to load recent applications');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadApplications();
+  }, []);
+
   function formatDate(dateString: string) {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
@@ -116,6 +85,9 @@ export default function RecentApplications() {
       year: 'numeric'
     });
   }
+
+  if (loading) return <div className="p-6">Loading recent applications...</div>;
+  if (error) return <div className="p-6 text-red-600">{error}</div>;
 
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
@@ -135,7 +107,7 @@ export default function RecentApplications() {
           </TableHeader>
           <TableBody>
             {applications.map((application) => (
-              <TableRow key={application.id}>
+              <TableRow key={application._id}>
                 <TableCell>
                   <div className="flex items-center">
                     <Avatar className="h-8 w-8 mr-3">
