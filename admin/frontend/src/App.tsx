@@ -17,6 +17,10 @@ import Students from "./pages/admin/Students";
 import AddStudent from "./pages/admin/AddStudent";
 import Settings from "./pages/admin/Settings";
 import AdminNotFound from "./pages/admin/NotFound";
+import Analytics from "./pages/admin/Analytics";
+import Calendar from "./pages/admin/Calendar";
+import Reports from "./pages/admin/Reports";
+import AddApplication from "./pages/admin/AddApplication";
 
 const queryClient = new QueryClient();
 
@@ -39,9 +43,10 @@ const App = () => (
             <Route path="students" element={<Students />} />
             <Route path="students/add" element={<AddStudent />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="analytics" element={<Dashboard />} /> {/* Placeholder */}
-            <Route path="calendar" element={<Dashboard />} /> {/* Placeholder */}
-            <Route path="reports" element={<Dashboard />} /> {/* Placeholder */}
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="calendar" element={<Calendar />} />
+            <Route path="reports" element={<Reports />} /> 
+            <Route path="applications/add" element={<AddApplication />} />
             <Route path="*" element={<AdminNotFound />} />
           </Route>
           
