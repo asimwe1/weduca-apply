@@ -4,16 +4,19 @@ const cors = require('cors');
 const { connectDB } = require('./config/db'); // Adjust path
 require('dotenv').config();
 
+// Ensure required dependencies for authentication are installed
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
-// Middleware
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: `http://localhost:${process.env.FRONTEND_PORT || 8080}`,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use((req, res, next) => {
@@ -23,11 +26,16 @@ app.use((req, res, next) => {
   express.json()(req, res, next);
 });
 
-// Mount all routes under /api
+// Public route for the homepage
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to WedukaApply' });
+});
+
+// Mount API routes
 const apiRoutes = require('./routes/index');
 app.use('/api', apiRoutes);
 
-// Catch-all 404 handler
+// Handle 404 errors
 app.use((req, res) => {
   console.log(`Route not found: ${req.method} ${req.url}`);
   res.status(404).json({ message: 'Route not found' });
@@ -39,7 +47,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Internal server error', error: err.message });
 });
 
-// Start server
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-

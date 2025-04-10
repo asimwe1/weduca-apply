@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const authMiddleware = require('../middleware/auth');
 
 // Import all sub-routers
+const authRoutes = require('./auth.routes'); // Added for authentication
 const countryRoutes = require('./country.routes');
 const fieldRoutes = require('./field.routes');
 const stepRoutes = require('./step.routes');
@@ -29,6 +31,7 @@ const getRoutes = () => {
   };
 
   // Extract routes from each sub-router
+  extractRoutes(authRoutes, '/auth'); // Added for auth routes
   extractRoutes(countryRoutes, '/countries');
   extractRoutes(fieldRoutes, '/fields');
   extractRoutes(stepRoutes, '/steps');
@@ -42,7 +45,7 @@ const getRoutes = () => {
   return routes;
 };
 
-// Root route to list all available routes
+// Root route to list all available routes (public)
 router.get('/', (req, res) => {
   const availableRoutes = getRoutes();
   res.json({
@@ -53,14 +56,15 @@ router.get('/', (req, res) => {
 });
 
 // Mount sub-routers
-router.use('/countries', countryRoutes);
-router.use('/fields', fieldRoutes);
-router.use('/steps', stepRoutes);
-router.use('/institutions', institutionRoutes);
-router.use('/english-tests', englishTestRoutes);
-router.use('/students', studentRoutes);
-router.use('/dashboard', dashboardRoutes);
-router.use('/settings', settingsRoutes);
-router.use('/applications', applicationRoutes);
+router.use('/auth', authRoutes); // Public route for authentication
+router.use('/countries', authMiddleware, countryRoutes); // Protected route
+router.use('/fields', authMiddleware, fieldRoutes); // Protected route
+router.use('/steps', authMiddleware, stepRoutes); // Protected route
+router.use('/institutions', authMiddleware, institutionRoutes); // Protected route
+router.use('/english-tests', authMiddleware, englishTestRoutes); // Protected route
+router.use('/students', authMiddleware, studentRoutes); // Protected route
+router.use('/dashboard', authMiddleware, dashboardRoutes); // Protected route
+router.use('/settings', authMiddleware, settingsRoutes); // Protected route
+router.use('/applications', authMiddleware, applicationRoutes); // Protected route
 
 module.exports = router;
