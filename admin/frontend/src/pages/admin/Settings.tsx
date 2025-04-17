@@ -32,11 +32,13 @@ export default function Settings() {
     twoFactorAuth: false,
     loginNotifications: true,
   });
+  const API_URL = import.meta.env.VITE_API_URL;
+
 
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/auth/settings', {
+        const response = await fetch(`${API_URL}/api/auth/settings`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
         const data = await response.json();
@@ -61,7 +63,7 @@ export default function Settings() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const response = await fetch('http://localhost:3000/api/auth/settings', {
+      const response = await fetch(`${API_URL}/api/auth/settings`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

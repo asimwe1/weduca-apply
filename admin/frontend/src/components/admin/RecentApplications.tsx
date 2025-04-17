@@ -54,7 +54,7 @@ export default function RecentApplications() {
   useEffect(() => {
     const loadApplications = async () => {
       try {
-        const data = await fetchData('/applications'); // Fetch from backend
+        const data = await fetchData('/api/applications'); // Fetch from backend
         setApplications(data.map((app: any) => ({
           _id: app._id,
           student: {

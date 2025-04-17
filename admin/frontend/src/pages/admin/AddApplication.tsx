@@ -44,8 +44,8 @@ export default function AddApplication() {
     const loadData = async () => {
       try {
         const [studentsData, institutionsData] = await Promise.all([
-          fetchData('/students'),
-          fetchData('/institutions'),
+          fetchData('/api/students'),
+          fetchData('/api/institutions'),
         ]);
         setStudents(studentsData);
         setInstitutions(institutionsData);
@@ -74,7 +74,7 @@ export default function AddApplication() {
     setLoading(true);
 
     try {
-      const response = await fetchData('/applications', {
+      const response = await fetchData('/api/applications', {
         method: 'POST',
         body: JSON.stringify(formData),
       });

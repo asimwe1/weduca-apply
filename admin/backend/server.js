@@ -14,7 +14,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: `http://localhost:${process.env.FRONTEND_PORT || 8080}`,
+  origin: process.env.FRONTEND_URL || 'https://admin.weducaapplyltd.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));

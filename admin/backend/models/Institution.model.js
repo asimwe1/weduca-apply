@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const institutionSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  logo: { type: String, required: true },
+  logo: { type: String },
   address: { type: String },
   image: { type: String },
   description: { type: String },

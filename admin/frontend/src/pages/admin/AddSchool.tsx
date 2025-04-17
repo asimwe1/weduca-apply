@@ -61,7 +61,7 @@ export default function AddSchool() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetchData('/institutions', {
+      await fetchData('/api/institutions', {
         method: 'POST',
         body: JSON.stringify(formData),
       });

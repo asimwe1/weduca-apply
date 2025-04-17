@@ -25,7 +25,7 @@ export default function TopSchools() {
     const loadApplicationsByInstitution = async () => {
       try {
         setLoading(true);
-        const applicationsByInstitution: InstitutionApplication[] = await fetchData('/applications/by-institution');
+        const applicationsByInstitution: InstitutionApplication[] = await fetchData('/api/applications/by-institution');
 
         // Step 1: Calculate total applications
         const totalApplications = applicationsByInstitution.reduce(

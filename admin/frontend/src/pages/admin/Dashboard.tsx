@@ -19,7 +19,7 @@ export default function Dashboard() {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const data = await fetchData('/dashboard');
+        const data = await fetchData('/api/dashboard');
         setStats(data);
       } catch (error) {
         console.error('Failed to fetch dashboard stats:', error);

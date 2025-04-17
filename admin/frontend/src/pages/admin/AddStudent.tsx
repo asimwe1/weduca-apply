@@ -71,7 +71,7 @@ export default function AddStudent() {
     setLoading(true);
 
     try {
-      const response = await fetchData('/students', {
+      const response = await fetchData('/api/students', {
         method: 'POST',
         body: JSON.stringify({ ...formData, sendEmail }),
       });

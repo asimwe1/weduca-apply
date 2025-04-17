@@ -1,7 +1,7 @@
 // src/utils/api.ts
 import { useAuth } from '../context/AuthContext';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL;
 const getToken = () => localStorage.getItem('token');
 
 export const fetchData = async (endpoint: string, options: RequestInit = {}) => {

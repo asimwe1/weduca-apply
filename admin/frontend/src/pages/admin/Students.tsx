@@ -71,11 +71,11 @@ export default function Students() {
         setLoading(true);
 
         // Step 1: Fetch students
-        const studentsData = await fetchData('/students');
+        const studentsData = await fetchData('/api/students');
         if (!Array.isArray(studentsData)) throw new Error("Unexpected students response format");
 
         // Step 2: Fetch all applications
-        const applicationsData: Application[] = await fetchData('/applications/all');
+        const applicationsData: Application[] = await fetchData('/api/applications/all');
         if (!Array.isArray(applicationsData)) throw new Error("Unexpected applications response format");
 
         // Step 3: Count applications per student

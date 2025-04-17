@@ -2,13 +2,14 @@ const User = require('../models/User.model');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 // Configure email transporter (update with your email service credentials)
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'landryasimwel@gmail.com',
-    pass: 'euclide4',
+    user: process.env.NODEMAILER_USER,
+    pass: process.env.NODEMAILER_PASS,
   },
 });
 
@@ -26,7 +27,7 @@ exports.login = async (req, res) => {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
   
-      const token = jwt.sign({ userId: user._id }, 'secret', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET , { expiresIn: '1h' });
       res.json({ token, user: { email: user.email, settings: user.settings } });
     } catch (error) {
       console.error('Error during login:', error);
@@ -53,7 +54,7 @@ exports.forgotPassword = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
 
-    const resetLink = `http://localhost:8080/auth/reset-password/${token}`;
+    const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password/${token}`;
     await transporter.sendMail({
       to: email,
       subject: 'Password Reset Request',

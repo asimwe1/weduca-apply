@@ -42,7 +42,7 @@ export default function Schools() {
   useEffect(() => {
     const loadSchools = async () => {
       try {
-        const data = await fetchData('/institutions');
+        const data = await fetchData('/api/institutions');
         if (!Array.isArray(data)) {
           throw new Error("Unexpected response format from server");
         }
