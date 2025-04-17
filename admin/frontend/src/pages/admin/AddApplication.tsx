@@ -79,7 +79,7 @@ export default function AddApplication() {
         body: JSON.stringify(formData),
       });
       toast.success("Application added successfully");
-      navigate("/admin/applications");
+      navigate("/admin/dashboard");
     } catch (error: any) {
       console.error('Failed to add application:', {
         message: error.message,

@@ -7,6 +7,7 @@ import {
   Users, 
   Calendar, 
   Settings, 
+  FileArchive,
   Menu, 
   X, 
   LogOut,
@@ -26,9 +27,10 @@ const sidebarLinks: SidebarLink[] = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
   { icon: School, label: "Schools", path: "/admin/schools" },
   { icon: Users, label: "Students", path: "/admin/students" },
-  { icon: BarChart3, label: "Analytics", path: "/admin/analytics" },
-  { icon: Calendar, label: "Calendar", path: "/admin/calendar" },
-  { icon: FileText, label: "Reports", path: "/admin/reports" },
+  { icon: FileArchive, label: "applications", path: "/admin/applications/add" },
+  // { icon: BarChart3, label: "Analytics", path: "/admin/analytics" },
+  // { icon: Calendar, label: "Calendar", path: "/admin/calendar" },
+  // { icon: FileText, label: "Reports", path: "/admin/reports" },
   { icon: Settings, label: "Settings", path: "/admin/settings" },
 ];
 
