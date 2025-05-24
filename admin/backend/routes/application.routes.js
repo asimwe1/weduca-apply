@@ -1,30 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const applicationController = require('../controllers/application.controller');
-const auth = require('../middleware/auth');
+const { authenticateToken } = require('../middleware/auth');
 
-// Get all applications with pagination and filters
-router.get('/', auth.authenticateToken, applicationController.getApplications);
-
-// Get success rate statistics
-router.get('/success-rate', auth.authenticateToken, applicationController.getSuccessRate);
-
-// Get application timeline
-router.get('/:id/timeline', auth.authenticateToken, applicationController.getApplicationTimeline);
-
-// Get applications by institution
-router.get('/by-institution', auth.authenticateToken, applicationController.getApplicationsByInstitution);
+// Protected routes (require authentication)
+router.use(authenticateToken);
 
 // Get all applications
-router.get('/all', auth.authenticateToken, applicationController.getAllApplications);
+router.get('/', applicationController.getAllApplications);
 
-// Get recent applications
-router.get('/recent', auth.authenticateToken, applicationController.getRecentApplications);
+// Get recent applications for dashboard
+router.get('/recent', applicationController.getRecentApplications);
+
+// Get applications by institution
+router.get('/by-institution', applicationController.getApplicationsByInstitution);
 
 // Create new application
-router.post('/', auth.authenticateToken, applicationController.createApplication);
+router.post('/', applicationController.createApplication);
+
+// Get specific application
+router.get('/:id', applicationController.getApplicationById);
+
+// Update application (only for pending status)
+router.put('/:id', applicationController.updateApplication);
 
 // Update application status
-router.patch('/:id/status', auth.authenticateToken, applicationController.updateApplicationStatus);
+router.patch('/:id/status', applicationController.updateApplicationStatus);
 
 module.exports = router;

@@ -11,6 +11,11 @@ const applicationSchema = new mongoose.Schema({
     enum: ['pending', 'under_review', 'approved', 'rejected', 'withdrawn'],
     default: 'pending' 
   },
+  reference: {
+    applicationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Application' },
+    status: { type: String },
+    date: { type: Date }
+  },
   applicationFee: {
     amount: { type: Number },
     currency: { type: String, default: 'USD' },
@@ -53,10 +58,19 @@ const applicationSchema = new mongoose.Schema({
 // Add index for better query performance
 applicationSchema.index({ student: 1, institution: 1, status: 1 });
 applicationSchema.index({ submissionDate: -1 });
+applicationSchema.index({ 'reference.applicationId': 1 });
 
 // Virtual for application age
 applicationSchema.virtual('applicationAge').get(function() {
   return Math.floor((Date.now() - this.submissionDate) / (1000 * 60 * 60 * 24));
+});
+
+// Virtual for referenced applications
+applicationSchema.virtual('referencedApplications', {
+  ref: 'Application',
+  localField: '_id',
+  foreignField: 'reference.applicationId',
+  justOne: false
 });
 
 module.exports = mongoose.model('Application', applicationSchema);

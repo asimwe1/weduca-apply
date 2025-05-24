@@ -17,11 +17,28 @@ exports.getRecentApplications = async (req, res) => {
 
 exports.createApplication = async (req, res) => {
   try {
-    const application = new Application(req.body);
+    const { referenceId, ...applicationData } = req.body;
+    
+    if (referenceId) {
+      const referenceApplication = await Application.findById(referenceId);
+      if (!referenceApplication) {
+        return res.status(404).json({ message: 'Reference application not found' });
+      }
+      
+      applicationData.reference = {
+        applicationId: referenceId,
+        status: referenceApplication.status,
+        date: new Date()
+      };
+    }
+
+    const application = new Application(applicationData);
     await application.save();
+
     res.status(201).json(application);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Error creating application:', error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -68,13 +85,17 @@ exports.getApplicationsByInstitution = async (req, res) => {
 
 exports.getAllApplications = async (req, res) => {
   try {
-    const applications = await Application.find()
-      .populate('student', 'firstName lastName email avatar')
-      .populate('institution', 'name');
+    const applications = await Application
+      .find()
+      .populate('student', 'firstName lastName email')
+      .populate('institution', 'name')
+      .populate('reference.applicationId', '_id program status')
+      .sort({ submissionDate: -1 });
+
     res.json(applications);
   } catch (error) {
-    console.error('Error fetching all applications:', error);
-    res.status(500).json({ message: 'Failed to fetch all applications' });
+    console.error('Error fetching applications:', error);
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -290,13 +311,50 @@ exports.updateApplicationStatus = async (req, res) => {
   }
 };
 
+exports.getApplicationById = async (req, res) => {
+  try {
+    const application = await Application
+      .findById(req.params.id)
+      .populate('student', 'firstName lastName email')
+      .populate('institution', 'name')
+      .populate('reference.applicationId', '_id program status');
 
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
+    }
 
+    res.json(application);
+  } catch (error) {
+    console.error('Error fetching application:', error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
+exports.updateApplication = async (req, res) => {
+  try {
+    const application = await Application.findById(req.params.id);
+    
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
+    }
 
+    // Only allow updates for pending applications
+    if (application.status !== 'pending') {
+      return res.status(403).json({ 
+        message: 'Only pending applications can be updated' 
+      });
+    }
 
+    // Update the application
+    Object.assign(application, req.body);
+    application.lastUpdated = new Date();
+    await application.save();
 
-
-
+    res.json(application);
+  } catch (error) {
+    console.error('Error updating application:', error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 // New endpoint to fetch all applications
