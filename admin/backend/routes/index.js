@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authMiddleware = require('../middleware/auth');
+const { authenticateToken } = require('../middleware/auth');
 
 // Import all sub-routers
 const authRoutes = require('./auth.routes'); // Added for authentication
@@ -57,14 +57,14 @@ router.get('/', (req, res) => {
 
 // Mount sub-routers
 router.use('/auth', authRoutes); // Public route for authentication
-router.use('/countries', authMiddleware, countryRoutes); // Protected route
-router.use('/fields', authMiddleware, fieldRoutes); // Protected route
-router.use('/steps', authMiddleware, stepRoutes); // Protected route
-router.use('/institutions', authMiddleware, institutionRoutes); // Protected route
-router.use('/english-tests', authMiddleware, englishTestRoutes); // Protected route
-router.use('/students', authMiddleware, studentRoutes); // Protected route
-router.use('/dashboard', authMiddleware, dashboardRoutes); // Protected route
-router.use('/settings', authMiddleware, settingsRoutes); // Protected route
-router.use('/applications', authMiddleware, applicationRoutes); // Protected route
+router.use('/countries', authenticateToken, countryRoutes);
+router.use('/fields', authenticateToken, fieldRoutes);
+router.use('/steps', authenticateToken, stepRoutes);
+router.use('/institutions', authenticateToken, institutionRoutes);
+router.use('/english-tests', authenticateToken, englishTestRoutes);
+router.use('/students', authenticateToken, studentRoutes);
+router.use('/dashboard', authenticateToken, dashboardRoutes);
+router.use('/settings', authenticateToken, settingsRoutes);
+router.use('/applications', authenticateToken, applicationRoutes);
 
 module.exports = router;

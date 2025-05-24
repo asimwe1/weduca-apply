@@ -6,10 +6,12 @@ require('dotenv').config();
 
 // Configure email transporter (update with your email service credentials)
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  host: "smtp-relay.brevo.com",
+  port:  587,
+  secure: false, // true for 465, false for 587
   auth: {
-    user: process.env.NODEMAILER_USER,
-    pass: process.env.NODEMAILER_PASS,
+    user: process.env.BREVO_MAILER_USER,
+    pass: process.env.BREVO_MAILER_PASS,
   },
 });
 

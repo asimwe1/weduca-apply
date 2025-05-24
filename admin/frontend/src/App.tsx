@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import { Toaster } from '@/components/ui/toaster';
-// import { Sonner } from 'sonner'; // Assuming this is a custom component or library
+import { Toaster as SonnerToaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import Home from './pages/admin/Home';
@@ -31,7 +31,7 @@ function App() {
     <QueryClientProvider client={new QueryClient}>
       <TooltipProvider>
         <Toaster />
-        {/* <Sonner /> */}
+        <SonnerToaster position="top-right" expand={true} richColors closeButton />
         <BrowserRouter>
           <AuthProvider>
             <Routes>

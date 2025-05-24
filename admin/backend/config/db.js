@@ -43,29 +43,34 @@
 
 // config/db.js
 const mongoose = require('mongoose');
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    // Check if MONGODB_URI is defined
+    if (!process.env.MONGODB_URI) {
+      throw new Error('MONGODB_URI is not defined in environment variables');
+    }
+
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 30000, // 30 seconds to select server
       socketTimeoutMS: 45000, // 45 seconds for socket timeout
     });
-    console.log('MongoDB connected successfully');
 
-    // Test server responsiveness
-    const adminDb = mongoose.connection.db.admin();
-    await adminDb.ping();
-    console.log('Ping successful: MongoDB server is responsive');
+    console.log(`MongoDB connected: ${conn.connection.host}`);
 
+    // Set up connection event handlers
     mongoose.connection.on('error', err => {
       console.error('Mongoose connection error:', err);
     });
+
     mongoose.connection.on('disconnected', () => {
       console.log('Mongoose disconnected');
     });
+
   } catch (error) {
     console.error('MongoDB connection error:', error);
     process.exit(1);
