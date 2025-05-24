@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Search, Plus, Filter, Users, Edit } from "lucide-react";
+import { Search, Plus, Filter, Users, Edit, Eye } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -69,13 +69,14 @@ export default function Students() {
     const loadStudents = async () => {
       try {
         setLoading(true);
+        setError(null);
 
         // Step 1: Fetch students
         const studentsData = await fetchData('/api/students');
         if (!Array.isArray(studentsData)) throw new Error("Unexpected students response format");
 
         // Step 2: Fetch all applications
-        const applicationsData: Application[] = await fetchData('/api/applications/all');
+        const applicationsData = await fetchData('/api/applications');
         if (!Array.isArray(applicationsData)) throw new Error("Unexpected applications response format");
 
         // Step 3: Count applications per student
@@ -92,13 +93,13 @@ export default function Students() {
           lastName: student.lastName,
           email: student.email,
           nationality: student.nationality || "Unknown",
-          applicationCount: applicationCounts[student._id] || 0, // Use the computed count
+          applicationCount: applicationCounts[student._id] || 0,
           status: student.status || "active",
           joinDate: student.joinDate,
         }));
 
         setStudents(studentsWithCounts);
-      } catch (err) {
+      } catch (err: any) {
         setError("Failed to load students or applications. Please try again later.");
         console.error('Failed to fetch data:', err);
       } finally {
@@ -182,7 +183,7 @@ export default function Students() {
                   <TableHead className="text-center">Applications</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Join Date</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead className="w-[100px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -213,16 +214,30 @@ export default function Students() {
                     </TableCell>
                     <TableCell>{formatDate(student.joinDate)}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                      >
-                        <Link to={`/admin/students/edit/${student._id}`}>
-                          <Edit className="h-4 w-4" />
-                          <span className="sr-only">Edit {student.firstName} ${student.lastName}</span>
-                        </Link>
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          asChild
+                        >
+                          <Link to={`/admin/students/edit/${student._id}`}>
+                            <Edit className="h-4 w-4" />
+                            <span className="sr-only">Edit {student.firstName} {student.lastName}</span>
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          asChild
+                        >
+                          <Link to={`/admin/students/${student._id}`}>
+                            <Eye className="h-4 w-4" />
+                            <span className="sr-only">View {student.firstName} {student.lastName}</span>
+                          </Link>
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

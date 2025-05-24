@@ -27,7 +27,7 @@ const sidebarLinks: SidebarLink[] = [
   { icon: LayoutDashboard, label: "Dashboard", path: "/admin" },
   { icon: School, label: "Schools", path: "/admin/schools" },
   { icon: Users, label: "Students", path: "/admin/students" },
-  { icon: FileArchive, label: "applications", path: "/admin/applications/add" },
+  { icon: FileArchive, label: "applications", path: "/admin/applications" },
   // { icon: BarChart3, label: "Analytics", path: "/admin/analytics" },
   // { icon: Calendar, label: "Calendar", path: "/admin/calendar" },
   // { icon: FileText, label: "Reports", path: "/admin/reports" },

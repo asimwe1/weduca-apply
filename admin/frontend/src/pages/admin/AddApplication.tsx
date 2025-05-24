@@ -9,9 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { fetchData } from "@/utils/api";
+import FileUpload from "@/components/admin/FileUpload";
 
 type Student = {
   _id: string;
@@ -25,19 +26,30 @@ type Institution = {
   name: string;
 };
 
+interface ApplicationData {
+  student: string;
+  institution: string;
+  program: string;
+  date: string;
+  documentUrls: string[];
+  referenceId?: string;
+}
+
 export default function AddApplication() {
   const [loading, setLoading] = useState(false);
   const [students, setStudents] = useState<Student[]>([]);
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ApplicationData>({
     student: "",
     institution: "",
     program: "",
-    date: new Date().toISOString().split("T")[0], // Default to today
-    status: "pending" as "pending" | "approved" | "rejected",
+    date: new Date().toISOString().split("T")[0],
+    documentUrls: [],
   });
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const referenceId = searchParams.get("reference");
 
   // Fetch students and institutions on mount
   useEffect(() => {
@@ -49,14 +61,24 @@ export default function AddApplication() {
         ]);
         setStudents(studentsData);
         setInstitutions(institutionsData);
+
+        // If there's a reference ID, load the reference application
+        if (referenceId) {
+          const referenceData = await fetchData(`/api/applications/${referenceId}`);
+          setFormData(prev => ({
+            ...prev,
+            institution: referenceData.institution._id,
+            program: referenceData.program,
+          }));
+        }
       } catch (err: any) {
         console.error('Failed to fetch data:', err);
-        setFetchError('Failed to load students or institutions. Please try again later.');
+        setFetchError('Failed to load required data. Please try again later.');
       }
     };
 
     loadData();
-  }, []);
+  }, [referenceId]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -69,24 +91,66 @@ export default function AddApplication() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileChange = (files: File[], uploadedUrls?: string[]) => {
+    setFormData({
+      ...formData,
+      documentUrls: uploadedUrls || []
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // Validate required fields
+      if (!formData.student) {
+        toast.error("Please select a student");
+        setLoading(false);
+        return;
+      }
+      if (!formData.institution) {
+        toast.error("Please select an institution");
+        setLoading(false);
+        return;
+      }
+      if (!formData.program) {
+        toast.error("Please enter a program");
+        setLoading(false);
+        return;
+      }
+
+      // Convert form data to a regular object for JSON submission
+      const applicationData = {
+        student: formData.student,
+        institution: formData.institution,
+        program: formData.program,
+        date: formData.date,
+        documentUrls: formData.documentUrls,
+        status: "pending" // Always set status to pending for new applications
+      };
+      if (referenceId) {
+        (applicationData as any).referenceId = referenceId;
+      }
+
+      console.log('Submitting application data:', applicationData);
+
       const response = await fetchData('/api/applications', {
         method: 'POST',
-        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(applicationData),
       });
+
       toast.success("Application added successfully");
       navigate("/admin/dashboard");
     } catch (error: any) {
       console.error('Failed to add application:', {
         message: error.message,
-        response: error.response ? await error.response.json() : 'No response',
         formData,
       });
-      toast.error("Failed to add application. Check the console for details.");
+      toast.error(error.message || "Failed to add application. Check the console for details.");
     } finally {
       setLoading(false);
     }
@@ -118,7 +182,9 @@ export default function AddApplication() {
             Back to Applications
           </Link>
         </Button>
-        <h1 className="text-2xl font-bold">Add New Application</h1>
+        <h1 className="text-2xl font-bold">
+          {referenceId ? "Add Application (with Reference)" : "Add New Application"}
+        </h1>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm p-6">
@@ -197,24 +263,24 @@ export default function AddApplication() {
                 className="mt-1"
               />
             </label>
+          </div>
 
-            <label className="block text-sm font-medium">
-              Status <span className="text-red-500">*</span>
-              <Select
-                value={formData.status}
-                onValueChange={handleSelectChange("status")}
-                required
-              >
-                <SelectTrigger className="mt-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="rejected">Rejected</SelectItem>
-                </SelectContent>
-              </Select>
-            </label>
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="bg-blue-100 p-3 rounded-lg">
+                <FileText className="h-6 w-6 text-blue-600" />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">Supporting Documents</h2>
+                <p className="text-gray-500">Upload application documents (max 75MB total)</p>
+              </div>
+            </div>
+
+            <FileUpload onFilesChange={handleFileChange} />
+            <p className="text-sm text-gray-500">
+              Upload up to 3 files or a single ZIP file. Maximum total size: 75MB.
+              Accepted formats: PDF, Word, ZIP, JPEG, PNG
+            </p>
           </div>
 
           <div className="flex justify-end gap-3">
@@ -224,7 +290,7 @@ export default function AddApplication() {
             <Button
               type="submit"
               className="bg-green-600 hover:bg-green-700"
-              disabled={loading || students.length === 0 || institutions.length === 0}
+              disabled={loading || !formData.student || !formData.institution || !formData.program || students.length === 0 || institutions.length === 0}
             >
               {loading ? "Adding..." : "Add Application"}
             </Button>

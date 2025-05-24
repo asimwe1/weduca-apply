@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Eye, Edit2, Copy } from "lucide-react";
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
 interface Application {
@@ -68,7 +68,7 @@ const statusStyles = {
 export default function AllApplications() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadApplications();
@@ -89,18 +89,18 @@ export default function AllApplications() {
   const handleAction = (action: string, application: Application) => {
     switch (action) {
       case 'view':
-        router.push(`/admin/applications/${application._id}`);
+        navigate(`/admin/applications/${application._id}`);
         break;
       case 'edit':
         if (application.status === 'pending') {
-          router.push(`/admin/applications/${application._id}/edit`);
+          navigate(`/admin/applications/${application._id}/edit`);
         } else {
           toast.error("Only pending applications can be edited");
         }
         break;
       case 'reference':
         if (application.status === 'approved' || application.status === 'rejected') {
-          router.push(`/admin/applications/new?reference=${application._id}`);
+          navigate(`/admin/applications/add?reference=${application._id}`);
         } else {
           toast.error("Only approved or rejected applications can be used as reference");
         }
@@ -122,7 +122,7 @@ export default function AllApplications() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">All Applications</h1>
-        <Button onClick={() => router.push('/admin/applications/new')}>
+        <Button onClick={() => navigate('/admin/applications/add')}>
           New Application
         </Button>
       </div>
