@@ -17,8 +17,19 @@ exports.getRecentApplications = async (req, res) => {
 
 exports.createApplication = async (req, res) => {
   try {
-    const { referenceId, ...applicationData } = req.body;
+    const { referenceId, documentUrls = [], student, ...applicationData } = req.body;
     
+    // Validate student ID
+    if (!student) {
+      return res.status(400).json({ message: 'Student ID is required' });
+    }
+
+    // Verify student exists
+    const studentExists = await Student.findById(student);
+    if (!studentExists) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
     if (referenceId) {
       const referenceApplication = await Application.findById(referenceId);
       if (!referenceApplication) {
@@ -32,8 +43,31 @@ exports.createApplication = async (req, res) => {
       };
     }
 
-    const application = new Application(applicationData);
+    // Set initial status to pending for new applications
+    applicationData.status = 'pending';
+    
+    // Convert documentUrls to documents array with metadata
+    const documents = documentUrls.map(url => ({
+      url,
+      originalName: url.split('/').pop() || 'document',
+      filename: url.split('/').pop()?.split('.')[0] || 'document',
+      uploadDate: new Date()
+    }));
+    
+    // Create application with documents
+    const application = new Application({
+      ...applicationData,
+      student,
+      documents,
+      submissionDate: new Date(),
+      lastUpdated: new Date()
+    });
+    
     await application.save();
+
+    // Populate necessary fields for response
+    await application.populate('student', 'firstName lastName email');
+    await application.populate('institution', 'name');
 
     res.status(201).json(application);
   } catch (error) {
@@ -323,7 +357,11 @@ exports.getApplicationById = async (req, res) => {
       return res.status(404).json({ message: 'Application not found' });
     }
 
-    res.json(application);
+    // Transform the response to include both documents and documentUrls
+    const response = application.toObject();
+    response.documentUrls = application.documents.map(doc => doc.url);
+
+    res.json(response);
   } catch (error) {
     console.error('Error fetching application:', error);
     res.status(500).json({ message: error.message });
@@ -345,10 +383,38 @@ exports.updateApplication = async (req, res) => {
       });
     }
 
+    const { documentUrls = [], ...updateData } = req.body;
+
+    // Update documents if new ones are provided
+    if (documentUrls.length > 0) {
+      // Keep existing documents that are still in documentUrls
+      const existingDocs = application.documents.filter(doc => 
+        documentUrls.includes(doc.url)
+      );
+
+      // Add new documents
+      const newUrls = documentUrls.filter(url => 
+        !application.documents.some(doc => doc.url === url)
+      );
+
+      const newDocs = newUrls.map(url => ({
+        url,
+        originalName: url.split('/').pop() || 'document',
+        filename: url.split('/').pop()?.split('.')[0] || 'document',
+        uploadDate: new Date()
+      }));
+
+      updateData.documents = [...existingDocs, ...newDocs];
+    }
+
     // Update the application
-    Object.assign(application, req.body);
+    Object.assign(application, updateData);
     application.lastUpdated = new Date();
     await application.save();
+
+    // Populate necessary fields for response
+    await application.populate('student', 'firstName lastName email');
+    await application.populate('institution', 'name');
 
     res.json(application);
   } catch (error) {

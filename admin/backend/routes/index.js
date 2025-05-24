@@ -13,6 +13,7 @@ const studentRoutes = require('./student.routes');
 const dashboardRoutes = require('./dashboard.routes');
 const settingsRoutes = require('./settings.routes');
 const applicationRoutes = require('./application.routes');
+const uploadRoutes = require('./upload.routes');
 
 // List of all routes with their methods and paths
 const getRoutes = () => {
@@ -41,6 +42,7 @@ const getRoutes = () => {
   extractRoutes(dashboardRoutes, '/dashboard');
   extractRoutes(settingsRoutes, '/settings');
   extractRoutes(applicationRoutes, '/applications');
+  extractRoutes(uploadRoutes, '/upload');
 
   return routes;
 };
@@ -66,5 +68,6 @@ router.use('/students', authenticateToken, studentRoutes);
 router.use('/dashboard', authenticateToken, dashboardRoutes);
 router.use('/settings', authenticateToken, settingsRoutes);
 router.use('/applications', authenticateToken, applicationRoutes);
+router.use('/upload', authenticateToken, uploadRoutes);
 
 module.exports = router;

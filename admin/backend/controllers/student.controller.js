@@ -36,6 +36,20 @@ const getStudents = async (req, res) => {
   }
 };
 
+// GET /api/students/:id
+const getStudentById = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+    res.json(student);
+  } catch (error) {
+    console.error('Error fetching student:', error);
+    res.status(500).json({ message: 'Failed to fetch student', error: error.message });
+  }
+};
+
 // POST /api/students
 const createStudent = async (req, res) => {
   console.log('Received POST /api/students:', req.body, req.file); // Debug log
@@ -100,7 +114,7 @@ const createStudent = async (req, res) => {
   }
 };
 
-module.exports = { getStudents, createStudent };
+module.exports = { getStudents, createStudent, getStudentById };
 
 
 

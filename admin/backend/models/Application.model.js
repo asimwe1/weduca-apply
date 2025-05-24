@@ -1,5 +1,15 @@
 const mongoose = require('mongoose');
 
+const documentSchema = new mongoose.Schema({
+  url: { type: String, required: true },
+  originalName: { type: String, required: true },
+  filename: { type: String, required: true },
+  size: { type: Number },
+  format: { type: String },
+  contentType: { type: String },
+  uploadDate: { type: Date, default: Date.now }
+});
+
 const applicationSchema = new mongoose.Schema({
   student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
   institution: { type: mongoose.Schema.Types.ObjectId, ref: 'Institution', required: true },
@@ -11,6 +21,7 @@ const applicationSchema = new mongoose.Schema({
     enum: ['pending', 'under_review', 'approved', 'rejected', 'withdrawn'],
     default: 'pending' 
   },
+  documents: [documentSchema], // Use the new document schema
   reference: {
     applicationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Application' },
     status: { type: String },
@@ -20,20 +31,6 @@ const applicationSchema = new mongoose.Schema({
     amount: { type: Number },
     currency: { type: String, default: 'USD' },
     paid: { type: Boolean, default: false }
-  },
-  documents: [{
-    type: { type: String },
-    name: { type: String },
-    status: { type: String, enum: ['pending', 'approved', 'rejected'] },
-    uploadDate: { type: Date }
-  }],
-  academicDetails: {
-    gpa: { type: Number },
-    testScores: {
-      type: { type: String },
-      score: { type: Number },
-      date: { type: Date }
-    }
   },
   timeline: [{
     status: { type: String },
@@ -71,6 +68,11 @@ applicationSchema.virtual('referencedApplications', {
   localField: '_id',
   foreignField: 'reference.applicationId',
   justOne: false
+});
+
+// Virtual for documentUrls (for backward compatibility)
+applicationSchema.virtual('documentUrls').get(function() {
+  return this.documents.map(doc => doc.url);
 });
 
 module.exports = mongoose.model('Application', applicationSchema);

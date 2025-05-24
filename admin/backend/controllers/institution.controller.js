@@ -9,6 +9,18 @@ exports.getInstitutions = async (req, res) => {
   }
 };
 
+exports.getInstitutionById = async (req, res) => {
+  try {
+    const institution = await institutionService.getInstitutionById(req.params.id);
+    if (!institution) {
+      return res.status(404).json({ message: 'Institution not found' });
+    }
+    res.json(institution);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.createInstitution = async (req, res) => {
   try {
     const institution = await institutionService.createInstitution(req.body);

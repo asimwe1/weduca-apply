@@ -50,11 +50,18 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Handle multipart/form-data and JSON
 app.use((req, res, next) => {
   if (req.is('multipart/form-data')) {
     return next();
   }
   express.json()(req, res, next);
+});
+
+// Add headers for better CORS handling
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
 });
 
 // Public route for the homepage

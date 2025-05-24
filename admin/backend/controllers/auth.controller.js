@@ -17,25 +17,55 @@ const transporter = nodemailer.createTransport({
 
 
 exports.login = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-      if (!user) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
-  
-      const isMatch = await user.comparePassword(password);
-      if (!isMatch) {
-        return res.status(401).json({ message: 'Invalid email or password' });
-      }
-  
-      const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET , { expiresIn: '1h' });
-      res.json({ token, user: { email: user.email, settings: user.settings } });
-    } catch (error) {
-      console.error('Error during login:', error);
-      res.status(500).json({ message: 'Server error' });
+  try {
+    const { email, password } = req.body;
+
+    // Validate JWT_SECRET is set
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not set in environment variables');
+      return res.status(500).json({ message: 'Server configuration error' });
     }
-  };
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    // Create token with explicit algorithm and proper expiration
+    const token = jwt.sign(
+      { 
+        userId: user._id,
+        email: user.email,
+        iat: Math.floor(Date.now() / 1000)
+      },
+      process.env.JWT_SECRET,
+      { 
+        expiresIn: '1h',
+        algorithm: 'HS256'
+      }
+    );
+
+    // Set token expiration time for client reference
+    const tokenExpiration = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+
+    res.json({ 
+      token, 
+      user: { 
+        email: user.email, 
+        settings: user.settings 
+      },
+      tokenExpiration: tokenExpiration.toISOString()
+    });
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 exports.logout = (req, res) => {
