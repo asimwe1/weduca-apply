@@ -1,0 +1,32 @@
+# Dependencies
+node_modules
+npm-debug.log
+
+# Environment
+.env
+.env.*
+
+# Version control
+.git
+.gitignore
+
+# Development
+*.md
+.vscode
+.idea
+*.test.js
+tests/
+coverage/
+
+# Build outputs
+dist/
+build/
+.next/
+
+# Logs
+logs/
+*.log
+
+# System files
+.DS_Store
+Thumbs.db 

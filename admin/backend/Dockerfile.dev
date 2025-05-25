@@ -1,0 +1,21 @@
+# Use specific version tags
+FROM node:18-alpine
+
+# Layer optimization
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+
+# Security best practices
+USER node
+ENV NODE_ENV=production
+ENV PORT=8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1
+
+# Runtime configuration
+EXPOSE 8080
+CMD ["node", "server.js"] 

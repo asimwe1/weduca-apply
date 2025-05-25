@@ -2,17 +2,21 @@ services:
   # Admin Backend Service
   - type: web
     name: weduca-admin-backend
-    env: node
-    region: frankfurt  # You can change this to your preferred region
-    buildCommand: cd admin/backend && npm install
-    startCommand: cd admin/backend && node server.js
+    env: docker
+    region: frankfurt
+    dockerfilePath: ./admin/backend/Dockerfile
+    dockerContext: ./admin/backend
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        sync: false  # This will be set manually in Render dashboard
+        sync: false
       - key: PORT
         value: 8080
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://weduca-admin-frontend.onrender.com
     healthCheckPath: /api/health
     autoDeploy: true
 
@@ -21,10 +25,10 @@ services:
     name: weduca-admin-frontend
     env: static
     buildCommand: cd admin/frontend && npm install && npm run build
-    staticPublishPath: admin/frontend/build
+    staticPublishPath: ./admin/frontend/dist
     envVars:
-      - key: REACT_APP_API_URL
-        value: https://weduca-admin-backend.onrender.com  # Update this with your actual backend URL
+      - key: VITE_API_URL
+        value: https://weduca-admin-backend.onrender.com
     headers:
       - path: /*
         name: Cache-Control
@@ -37,17 +41,21 @@ services:
   # Client Backend Service
   - type: web
     name: weduca-client-backend
-    env: node
+    env: docker
     region: frankfurt
-    buildCommand: cd client/backend && npm install
-    startCommand: cd client/backend && node server.js
+    dockerfilePath: ./client/backend/Dockerfile
+    dockerContext: ./client/backend
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        sync: false  # This will be set manually in Render dashboard
+        sync: false
       - key: PORT
         value: 8080
+      - key: JWT_SECRET
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://weduca-client-frontend.onrender.com
     healthCheckPath: /api/health
     autoDeploy: true
 
@@ -56,10 +64,10 @@ services:
     name: weduca-client-frontend
     env: static
     buildCommand: cd client/frontend && npm install && npm run build
-    staticPublishPath: client/frontend/build
+    staticPublishPath: ./client/frontend/dist
     envVars:
-      - key: REACT_APP_API_URL
-        value: https://weduca-client-backend.onrender.com  # Update this with your actual backend URL
+      - key: VITE_API_URL
+        value: https://weduca-client-backend.onrender.com
     headers:
       - path: /*
         name: Cache-Control

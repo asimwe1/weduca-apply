@@ -111,6 +111,21 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  const healthcheck = {
+    uptime: process.uptime(),
+    message: 'OK',
+    timestamp: Date.now()
+  };
+  try {
+    res.send(healthcheck);
+  } catch (e) {
+    healthcheck.message = e;
+    res.status(503).send();
+  }
+});
+
 // Handle 404 errors
 app.use((req, res) => {
   console.log(`Route not found: ${req.method} ${req.url}`);

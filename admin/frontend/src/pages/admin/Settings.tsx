@@ -327,7 +327,7 @@ export default function Settings() {
           </div>
 
           <Separator />
-
+          
           <div className="flex justify-between items-center">
             <div>
               <h3 className="font-medium">{t.new_school_registration}</h3>
@@ -340,7 +340,7 @@ export default function Settings() {
           </div>
 
           <Separator />
-
+          
           <div className="flex justify-between items-center">
             <div>
               <h3 className="font-medium">{t.new_student_application}</h3>
@@ -353,7 +353,7 @@ export default function Settings() {
           </div>
 
           <Separator />
-
+          
           <div className="flex justify-between items-center">
             <div>
               <h3 className="font-medium">{t.system_updates}</h3>
@@ -391,7 +391,7 @@ export default function Settings() {
           </div>
 
           <Separator />
-
+          
           <div className="flex justify-between items-center">
             <div>
               <h3 className="font-medium">{t.login_notifications}</h3>
