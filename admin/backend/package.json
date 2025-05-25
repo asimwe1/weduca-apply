@@ -1,31 +1,33 @@
 {
-  "name": "backend",
+  "name": "weduca-admin-backend",
   "version": "1.0.0",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "build": "echo \"Error: no build specified\" && exit 1",
+    "build": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Weduca Admin Backend",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cloudinary": "^2.6.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.15.0",
-    "mongoose": "^8.13.2",
-    "multer": "^2.0.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^6.3.0",
+    "mongoose": "^7.0.3",
+    "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
-    "nodemailer": "^6.10.0",
-    "nodemon": "^3.1.9",
-    "sonner": "^2.0.3"
+    "nodemailer": "^6.9.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

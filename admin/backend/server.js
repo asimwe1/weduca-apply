@@ -1,17 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { connectDB } = require('./config/db'); // Adjust path
-require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+const dotenv = require('dotenv');
+const path = require('path');
 
 // Ensure required dependencies for authentication are installed
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 
-const app = express();
+// Import routes
+const applicationRoutes = require('./routes/application.routes');
+const uploadRoutes = require('./routes/upload.routes');
+const authRoutes = require('./routes/auth.routes');
+const studentRoutes = require('./routes/student.routes');
+const institutionRoutes = require('./routes/institution.routes');
 
-connectDB();
+// Load environment variables
+dotenv.config();
+
+const app = express();
 
 // CORS configuration
 const corsOptions = {
@@ -49,6 +59,28 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Add headers for better CORS handling
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
+// API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Weduca Admin API Documentation",
+  swaggerOptions: {
+    persistAuthorization: true
+  }
+}));
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Handle multipart/form-data and JSON
 app.use((req, res, next) => {
@@ -58,20 +90,26 @@ app.use((req, res, next) => {
   express.json()(req, res, next);
 });
 
-// Add headers for better CORS handling
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
 // Public route for the homepage
 app.get('/', (req, res) => {
   res.json({ message: 'Welcome to WedukaApply' });
 });
 
-// Mount API routes
-const apiRoutes = require('./routes/index');
-app.use('/api', apiRoutes);
+// Routes
+app.use('/api/applications', applicationRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/institutions', institutionRoutes);
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  });
+}
 
 // Handle 404 errors
 app.use((req, res) => {
@@ -82,9 +120,14 @@ app.use((req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
-  res.status(500).json({ message: 'Internal server error', error: err.message });
+  res.status(500).json({ 
+    message: 'Something went wrong!',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
 });
 
-// Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
+});

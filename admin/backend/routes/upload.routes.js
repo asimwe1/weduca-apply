@@ -113,11 +113,11 @@ router.post('/documents', (req, res, next) => {
       return handleUploadError(err, req, res, next);
     }
 
-    try {
-      if (!req.files || req.files.length === 0) {
+  try {
+    if (!req.files || req.files.length === 0) {
         console.error('No files in request');
-        return res.status(400).json({ error: 'No files uploaded' });
-      }
+      return res.status(400).json({ error: 'No files uploaded' });
+    }
 
       console.log('Processing files:', req.files.map(f => ({
         originalname: f.originalname,
@@ -154,8 +154,8 @@ router.post('/documents', (req, res, next) => {
 
           return {
             url,
-            originalName: file.originalname,
-            size: file.size,
+      originalName: file.originalname,
+      size: file.size,
             format: ext,
             filename: path.parse(file.originalname).name,
             contentType: file.mimetype,
@@ -178,8 +178,8 @@ router.post('/documents', (req, res, next) => {
         originalName: f.originalName
       })));
 
-      res.json({ files: uploadedFiles });
-    } catch (error) {
+    res.json({ files: uploadedFiles });
+  } catch (error) {
       console.error('Upload processing error:', {
         message: error.message,
         stack: error.stack
@@ -188,7 +188,7 @@ router.post('/documents', (req, res, next) => {
         error: 'Failed to process uploaded files',
         details: error.message 
       });
-    }
+  }
   });
 });
 
