@@ -6,6 +6,8 @@ services:
     region: frankfurt
     dockerfilePath: ./admin/backend/Dockerfile
     dockerContext: ./admin/backend
+    buildCommand: cd admin/backend && npm ci --production
+    startCommand: cd admin/backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -45,6 +47,8 @@ services:
     region: frankfurt
     dockerfilePath: ./client/backend/Dockerfile
     dockerContext: ./client/backend
+    buildCommand: cd client/backend && npm ci --production
+    startCommand: cd client/backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
