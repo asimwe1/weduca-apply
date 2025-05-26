@@ -1,21 +1,32 @@
 # Use Node.js LTS version
 FROM node:18-alpine
 
-# Set working directory
-WORKDIR /app
+# Install necessary build tools
+RUN apk add --no-cache python3 make g++
 
-# Copy package files
-COPY package*.json ./
+# Create app directory and set permissions
+WORKDIR /app
+RUN chown -R node:node /app
+
+# Switch to non-root user
+USER node
+
+# Copy package files with correct ownership
+COPY --chown=node:node package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci --production
 
-# Copy app source
-COPY . .
+# Copy app source with correct ownership
+COPY --chown=node:node . .
 
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1
 
 # Expose port
 EXPOSE 8080
