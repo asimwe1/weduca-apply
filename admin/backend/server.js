@@ -25,10 +25,17 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
+<<<<<<< HEAD
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
+=======
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+>>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
     const allowedOrigins = [
       'http://localhost:8080',
       'http://localhost:3000',
@@ -36,7 +43,11 @@ const corsOptions = {
       'http://127.0.0.1:3000',
       'https://admin.weducaapplyltd.com'
     ];
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -78,6 +89,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 }));
 
 // Connect to MongoDB
+<<<<<<< HEAD
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -103,6 +115,11 @@ mongoose.connection.on('disconnected', () => {
 mongoose.connection.on('reconnected', () => {
   console.log('MongoDB reconnected');
 });
+=======
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+>>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
 
 // Handle multipart/form-data and JSON
 app.use((req, res, next) => {
@@ -126,10 +143,17 @@ app.use('/api/institutions', institutionRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
+<<<<<<< HEAD
   app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
+=======
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+>>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
   });
 }
 
@@ -138,8 +162,12 @@ app.get('/api/health', (req, res) => {
   const healthcheck = {
     uptime: process.uptime(),
     message: 'OK',
+<<<<<<< HEAD
     timestamp: Date.now(),
     mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+=======
+    timestamp: Date.now()
+>>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
   };
   try {
     res.send(healthcheck);
@@ -158,7 +186,11 @@ app.use((req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
+<<<<<<< HEAD
   res.status(500).json({
+=======
+  res.status(500).json({ 
+>>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
     message: 'Something went wrong!',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
