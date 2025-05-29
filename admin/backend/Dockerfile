@@ -20,6 +20,14 @@ RUN npm ci --production
 # Copy app source with correct ownership
 COPY --chown=node:node . .
 
+# Build frontend
+WORKDIR /app/frontend
+RUN npm install
+RUN npm run build
+
+# Go back to backend directory
+WORKDIR /app
+
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=8080

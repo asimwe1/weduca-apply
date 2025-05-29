@@ -78,9 +78,31 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 }));
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+})
   .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    // Don't exit the process, let the app continue running
+    // The health check will report the connection status
+  });
+
+// Add connection event handlers
+mongoose.connection.on('error', err => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected');
+});
+
+mongoose.connection.on('reconnected', () => {
+  console.log('MongoDB reconnected');
+});
 
 // Handle multipart/form-data and JSON
 app.use((req, res, next) => {
@@ -104,10 +126,10 @@ app.use('/api/institutions', institutionRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../admin/frontend/dist')));
+  app.use(express.static(path.join(__dirname, 'frontend/dist')));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../admin/frontend/dist/index.html'));
+    res.sendFile(path.join(__dirname, 'frontend/dist/index.html'));
   });
 }
 
@@ -116,7 +138,8 @@ app.get('/api/health', (req, res) => {
   const healthcheck = {
     uptime: process.uptime(),
     message: 'OK',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   };
   try {
     res.send(healthcheck);
