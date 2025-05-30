@@ -18,12 +18,7 @@ npm-debug.log
 tests/
 coverage/
 
-<<<<<<< HEAD
 # Build outputs (except frontend)
-=======
-# Build outputs
-dist/
->>>>>>> d6de5d71966745acdd17eae120a7772b9d7d0750
 build/
 .next/
 
