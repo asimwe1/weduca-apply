@@ -20,7 +20,8 @@ RUN npm ci --production
 # Copy app source with correct ownership
 COPY --chown=node:node . .
 
-# Build frontend
+# Copy frontend source and build
+COPY --chown=node:node ../frontend /app/frontend
 WORKDIR /app/frontend
 RUN npm install
 RUN npm run build
