@@ -4,7 +4,7 @@ FROM node:18-alpine
 # Install necessary build tools
 RUN apk add --no-cache python3 make g++ && apk upgrade --no-cache
 
-# Create app directory and set permissions
+# Create app directory and set permissionsX
 WORKDIR /app
 RUN chown -R node:node /app
 
@@ -19,12 +19,6 @@ RUN npm ci --production
 
 # Copy app source with correct ownership
 COPY --chown=node:node . .
-
-# Copy frontend source and build
-COPY --chown=node:node ../frontend /app/frontend
-WORKDIR /app/frontend
-RUN npm install
-RUN npm run build
 
 # Go back to backend directory
 WORKDIR /app
