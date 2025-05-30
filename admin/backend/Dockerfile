@@ -2,8 +2,7 @@
 FROM node:18-alpine
 
 # Install necessary build tools
-RUN apk add --no-cache python3 make g++ &&
-  apk upgrade --no-cache
+RUN apk add --no-cache python3 make g++ && apk upgrade --no-cache
 
 # Create app directory and set permissions
 WORKDIR /app
