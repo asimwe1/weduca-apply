@@ -2,9 +2,9 @@
 FROM node:18-alpine
 
 # Install necessary build tools
-RUN apk add --no-cache python3 make g++
+RUN apk add --no-cache python3 make g++ && apk upgrade --no-cache
 
-# Create app directory and set permissions
+# Create app directory and set permissionsX
 WORKDIR /app
 RUN chown -R node:node /app
 
@@ -20,6 +20,9 @@ RUN npm ci --production
 # Copy app source with correct ownership
 COPY --chown=node:node . .
 
+# Go back to backend directory
+WORKDIR /app
+
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=8080
@@ -32,4 +35,4 @@ HEALTHCHECK --interval=30s --timeout=3s \
 EXPOSE 8080
 
 # Start the application
-CMD ["node", "server.js"] 
+CMD ["node", "server.js"]

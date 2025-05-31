@@ -25,10 +25,10 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     const allowedOrigins = [
       'http://localhost:8080',
       'http://localhost:3000',
@@ -36,7 +36,7 @@ const corsOptions = {
       'http://127.0.0.1:3000',
       'https://admin.weducaapplyltd.com'
     ];
-    
+
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -78,9 +78,31 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 }));
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+})
   .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    // Don't exit the process, let the app continue running
+    // The health check will report the connection status
+  });
+
+// Add connection event handlers
+mongoose.connection.on('error', err => {
+  console.error('MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB disconnected');
+});
+
+mongoose.connection.on('reconnected', () => {
+  console.log('MongoDB reconnected');
+});
 
 // Handle multipart/form-data and JSON
 app.use((req, res, next) => {
@@ -102,21 +124,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/institutions', institutionRoutes);
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
-  
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-  });
-}
-
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   const healthcheck = {
     uptime: process.uptime(),
     message: 'OK',
-    timestamp: Date.now()
+    timestamp: Date.now(),
+    mongodb: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
   };
   try {
     res.send(healthcheck);
@@ -135,7 +149,7 @@ app.use((req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
-  res.status(500).json({ 
+  res.status(500).json({
     message: 'Something went wrong!',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
