@@ -34,7 +34,8 @@ const corsOptions = {
       'http://localhost:3000',
       'http://127.0.0.1:8080',
       'http://127.0.0.1:3000',
-      'https://admin.weducaapplyltd.com'
+      'https://admin.weducaapplyltd.com',
+      'https://weduca-apply-2pxstefd3-landrysb.vercel.app/'
     ];
 
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
