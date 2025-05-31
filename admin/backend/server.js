@@ -17,6 +17,7 @@ const uploadRoutes = require('./routes/upload.routes');
 const authRoutes = require('./routes/auth.routes');
 const studentRoutes = require('./routes/student.routes');
 const institutionRoutes = require('./routes/institution.routes');
+const dashboardRoutes = require('./routes/dashboard.routes');
 
 // Load environment variables
 dotenv.config();
@@ -104,6 +105,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/institutions', institutionRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
