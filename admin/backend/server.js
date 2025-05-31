@@ -23,28 +23,9 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
-
-    const allowedOrigins = [
-      'http://localhost:8080',
-      'http://localhost:3000',
-      'http://127.0.0.1:8080',
-      'http://127.0.0.1:3000',
-      'https://admin.weducaapplyltd.com',
-      'https://weduca-apply-2pxstefd3-landrysb.vercel.app/'
-    ];
-
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
+// CORS configuration to allow any origin
+app.use(cors({
+  origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: [
     'Content-Type',
@@ -57,15 +38,14 @@ const corsOptions = {
     'Access-Control-Request-Headers'
   ],
   exposedHeaders: ['Content-Range', 'X-Content-Range']
-};
+}));
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Explicitly handle OPTIONS requests for all routes to prevent 500 errors
+app.options('*', cors()); // Automatically respond to OPTIONS requests
 
-// Add headers for better CORS handling
+// Add headers for better CORS handling (optional, as cors() handles this)
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Credentials', 'false'); // Set to false since '*' is used
   next();
 });
 
