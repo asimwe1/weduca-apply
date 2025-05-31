@@ -68,7 +68,7 @@ services:
     name: weduca-client-frontend
     env: node
     buildCommand: cd client/frontend && npm install && npm run build
-    startCommand: mpx serve -s ./client/frontend/dist
+    startCommand: npx serve -s ./client/frontend/dist
     envVars:
       - key: VITE_API_URL
         value: https://weduca-client-backend.onrender.com
