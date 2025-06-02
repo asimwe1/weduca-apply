@@ -50,7 +50,7 @@ const StudyDestinations = () => {
                   {destination.title}
                 </h2>
                 <a
-                  href="#"
+                  href={`/explore/destinations/${destination.title.split(' ').pop().toLowerCase()}`}
                   className="inline-flex items-center text-green-700 hover:text-teal-800 font-medium transition-colors"
                 >
                   Explore

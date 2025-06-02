@@ -19,7 +19,10 @@ const GetStarted = () => {
                 Are you a student looking to study in Canada, the US, the UK, Australia, or Ireland? Register to launch
                 your journey now!
               </p>
-              <button className="mt-auto bg-green-700 text-white px-8 py-3 rounded-md hover:bg-teal-800 transition-colors">
+              <button 
+                onClick={() => window.location.href = '/international-students/signup'} 
+                className="mt-auto bg-green-700 text-white px-8 py-3 rounded-md hover:bg-teal-800 transition-colors"
+              >
                 Sign Up for Free
               </button>
             </div>
@@ -38,7 +41,10 @@ const GetStarted = () => {
                 Join 1,500+ global institutions on the WEDUCA APPLY LTD platform! Complete this form, and our Partner Relations
                 team will be in touch soon.
               </p>
-              <button className="mt-auto bg-green-700 text-white px-8 py-3 rounded-md hover:bg-teal-800 transition-colors">
+              <button 
+                onClick={() => window.location.href = '/partner-institutions/signup'}
+                className="mt-auto bg-green-700 text-white px-8 py-3 rounded-md hover:bg-teal-800 transition-colors"
+              >
                 Become a Recruitment Partner
               </button>
             </div>
@@ -56,7 +62,10 @@ const GetStarted = () => {
               <p className="text-gray-600 mb-8">
                 Do you recruit and guide international students? Join our partner network and revolutionize your process!
               </p>
-              <button className="mt-auto bg-green-700 text-white px-8 py-3 rounded-md hover:bg-teal-800 transition-colors">
+              <button 
+                onClick={() => window.location.href = '/recruitment-partners/signup'}
+                className="mt-auto bg-green-700 text-white px-8 py-3 rounded-md hover:bg-teal-800 transition-colors"
+              >
                 Recruiter Registration
               </button>
             </div>

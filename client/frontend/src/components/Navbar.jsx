@@ -1,5 +1,3 @@
-
-
 import { useState } from "react"
 
 
@@ -16,10 +14,10 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center space-x-6 md:flex">
-          <a href="#" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
+          <a href="/international-students" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
             Students
           </a>
-          <a href="#" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
+          <a href="/recruitment-partners" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
             Recruitment Partners
           </a>
           <a href="/schools" className="text-sm font-medium text-gray-700 transition-colors hover:text-green-600">
@@ -46,13 +44,13 @@ export default function Navbar() {
             {/* Dropdown Menu */}
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5">
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <a href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   About Us
                 </a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <a href="/resources" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Resources
                 </a>
-                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <a href="/blog" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Blog
                 </a>
               </div>
@@ -63,13 +61,13 @@ export default function Navbar() {
         {/* Desktop Buttons */}
         <div className="hidden items-center space-x-4 md:flex">
           <a
-            href="#"
+            href="/auth/login"
             className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:border-green-600 hover:text-green-600"
           >
             Login
           </a>
           <a
-            href="#"
+            href="/auth/signup"
             className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-600"
           >
             Register
@@ -100,43 +98,62 @@ export default function Navbar() {
           <nav className="px-4 py-6">
             <div className="flex flex-col space-y-4">
               <a
-                href="#"
+                href="/international-students"
                 className="text-lg font-medium text-gray-700 hover:text-green-600"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Students
               </a>
               <a
-                href="#"
+                href="/recruitment-partners"
                 className="text-lg font-medium text-gray-700 hover:text-green-600"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Recruitment Partners
               </a>
               <a
-                href="#"
+                href="/schools"
                 className="text-lg font-medium text-gray-700 hover:text-green-600"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Institutions
               </a>
-              <a
-                href="#"
-                className="text-lg font-medium text-gray-700 hover:text-green-600"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Discover
-              </a>
+              <div className="space-y-2">
+                <p className="text-lg font-medium text-gray-700">Discover</p>
+                <div className="flex flex-col space-y-2 pl-4">
+                  <a
+                    href="/about"
+                    className="text-base text-gray-600 hover:text-green-600"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    About Us
+                  </a>
+                  <a
+                    href="/resources"
+                    className="text-base text-gray-600 hover:text-green-600"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Resources
+                  </a>
+                  <a
+                    href="/blog"
+                    className="text-base text-gray-600 hover:text-green-600"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Blog
+                  </a>
+                </div>
+              </div>
               <div className="pt-4">
                 <a
-                  href="#"
+                  href="/auth/login"
                   className="mb-3 block w-full rounded-md border border-gray-300 px-4 py-2 text-center text-sm font-medium text-gray-700 transition-colors hover:border-green-600 hover:text-green-600"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Login
                 </a>
                 <a
-                  href="#"
+                  href="/auth/signup"
                   className="block w-full rounded-md bg-green-600 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-green-600"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

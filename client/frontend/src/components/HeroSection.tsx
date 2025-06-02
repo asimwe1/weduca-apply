@@ -23,21 +23,21 @@ export default function Hero() {
 
           <div className="flex flex-col space-y-4">
             <a
-              href="#"
+              href="/international-students/signup"
               className="w-fit rounded-md bg-white px-8 py-3 text-base font-semibold text-green-600 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-600"
             >
               I want to study abroad
             </a>
 
             <a
-              href="#"
+              href="/recruitment-partners/signup"
               className="w-fit rounded-md border-2 border-white bg-transparent px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-600"
             >
               I want to guide international students
             </a>
 
             <a
-              href="#"
+              href="/partner-institutions/signup"
               className="w-fit rounded-md border-2 border-white bg-transparent px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-600"
             >
               I want to welcome students to my campus

@@ -81,9 +81,12 @@ const StudentPlatform = () => {
           <p className="text-gray-600">
             {tabContent[activeTab].description}
           </p>
-          <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors">
+          <a
+            href={`/${tabs[activeTab].toLowerCase().replace(/\s+/g, '-')}/signup`}
+            className="inline-block bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-600 transition-colors"
+          >
             Learn More
-          </button>
+          </a>
         </div>
 
         {/* Right Content - Image Carousel */}
